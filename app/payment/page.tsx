@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { loadIntakeData } from "@/lib/intake-types";
@@ -12,6 +12,9 @@ export default function PaymentPage() {
   const [agreed, setAgreed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const searchParams = useSearchParams();
+
+  const wasCanceled = searchParams?.get("canceled") === "1";
 
   useEffect(() => {
     // Verify we have intake data
@@ -25,50 +28,40 @@ export default function PaymentPage() {
 
   const handlePayment = async () => {
     if (!agreed || isSubmitting) return;
-    
-    setIsSubmitting(true);
-    
-    try {
-      // Get attribution data for the payment record
-      const attributionFields = getAttributionFormFields();
-      const intakeData = loadIntakeData();
-      
-      // TODO: Integrate with Stripe or payment processor
-      // After payment is successfully processed, submit to GoHighLevel
-      // For now, simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Submit payment data to GoHighLevel
-      try {
-        const response = await fetch("/api/gohighlevel/payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: 100,
-            paymentMethod: "setup_deposit",
-            transactionId: `TXN-${Date.now()}`, // Replace with actual transaction ID from payment processor
-            intakeData: intakeData || {},
-            attributionFields,
-          }),
-        });
 
-        if (!response.ok) {
-          console.error("Failed to submit payment to GoHighLevel");
-          // Don't block user flow if GoHighLevel submission fails
-        }
-      } catch (error) {
-        console.error("Error submitting payment to GoHighLevel:", error);
-        // Don't block user flow if GoHighLevel submission fails
+    setIsSubmitting(true);
+
+    try {
+      // Create a Stripe Checkout Session and redirect the user
+      const response = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        console.error("Failed to create Stripe Checkout session");
+        alert(
+          "We couldn't start your secure payment. Please try again or contact support."
+        );
+        return;
       }
-      
-      // Redirect to success page (or show success state)
-      alert("Payment successful! A consultant will be in touch shortly.");
-      router.push("/");
+
+      const data = await response.json();
+
+      if (!data?.url) {
+        console.error("Stripe Checkout session response missing url");
+        alert(
+          "We couldn't start your secure payment. Please try again or contact support."
+        );
+        return;
+      }
+
+      // Redirect to Stripe-hosted Checkout
+      window.location.href = data.url;
     } catch (error) {
-      console.error("Payment processing error:", error);
-      alert("There was an error processing your payment. Please try again.");
+      console.error("Error starting Stripe Checkout session:", error);
+      alert(
+        "There was an error starting your payment. Please refresh and try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -102,6 +95,14 @@ export default function PaymentPage() {
 
             {/* Body */}
             <div className="px-8 py-8">
+              {/* Cancellation Notice */}
+              {wasCanceled && (
+                <div className="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-[14px] text-yellow-800">
+                  Your payment was canceled on the secure checkout page. You can try
+                  again below when you&apos;re ready.
+                </div>
+              )}
+
               {/* Setup Deposit */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-4">
