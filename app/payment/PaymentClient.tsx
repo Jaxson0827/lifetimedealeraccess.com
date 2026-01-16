@@ -67,6 +67,10 @@ export default function PaymentClient() {
         return;
       }
 
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H8',location:'app/payment/PaymentClient.tsx:handlePayment:redirect',message:'redirecting to Stripe Checkout URL',data:{urlHost:(()=>{try{return new URL(data.url).host;}catch{return 'invalid';}})(),urlPath:(()=>{try{return new URL(data.url).pathname;}catch{return 'invalid';}})()},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
+
       // Redirect to Stripe-hosted Checkout
       window.location.href = data.url;
     } catch (error) {

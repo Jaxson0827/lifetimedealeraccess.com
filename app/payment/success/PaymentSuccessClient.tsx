@@ -57,6 +57,10 @@ export default function PaymentSuccessClient() {
 
         const confirmData = await confirmRes.json();
 
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H5',location:'app/payment/success/PaymentSuccessClient.tsx:confirm:result',message:'confirm-session response received',data:{ok:confirmRes.ok,status:confirmRes.status,paid:!!confirmData?.paid},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion agent log
+
         if (!confirmRes.ok || !confirmData?.paid) {
           setStatus("unpaid");
           setMessage(
@@ -95,6 +99,10 @@ export default function PaymentSuccessClient() {
           }),
         });
 
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H6',location:'app/payment/success/PaymentSuccessClient.tsx:ghl:result',message:'gohighlevel payment response received',data:{ok:ghlRes.ok,status:ghlRes.status},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion agent log
+
         if (!ghlRes.ok) {
           console.error("Failed to submit payment to GoHighLevel");
           setStatus("error");
@@ -114,6 +122,11 @@ export default function PaymentSuccessClient() {
         );
       } catch (error) {
         console.error("Error during payment success handling:", error);
+
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H5',location:'app/payment/success/PaymentSuccessClient.tsx:run:catch',message:'exception thrown during success handling',data:{errorName:error instanceof Error?error.name:'unknown',errorMessage:error instanceof Error?error.message:String(error)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion agent log
+
         setStatus("error");
         setMessage(
           "Your payment may have gone through, but we hit an error while confirming it. Please contact support so we can verify and finalize your account."

@@ -16,9 +16,31 @@ function getStripeClient() {
 
 export async function POST(request: NextRequest) {
   try {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H4',location:'app/api/stripe/create-checkout-session/route.ts:POST:entry',message:'create-checkout-session called',data:{hasStripeSecret:!!process.env.STRIPE_SECRET_KEY,hasPriceId:!!process.env.STRIPE_SETUP_DEPOSIT_PRICE_ID},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
+    const key = process.env.STRIPE_SECRET_KEY;
+    const keyType =
+      typeof key === "string"
+        ? key.startsWith("sk_live_")
+          ? "sk_live"
+          : key.startsWith("sk_test_")
+            ? "sk_test"
+            : "unknown"
+        : "missing";
+
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H9',location:'app/api/stripe/create-checkout-session/route.ts:POST:key_type',message:'Stripe secret key type (redacted)',data:{keyType},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
     const stripe = getStripeClient();
 
     const origin = request.nextUrl.origin;
+
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H7',location:'app/api/stripe/create-checkout-session/route.ts:POST:origin',message:'computed origin for redirect URLs',data:{origin},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
 
     const priceId = process.env.STRIPE_SETUP_DEPOSIT_PRICE_ID;
 
@@ -54,15 +76,31 @@ export async function POST(request: NextRequest) {
     });
 
     if (!session.url) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H4',location:'app/api/stripe/create-checkout-session/route.ts:POST:no_url',message:'Stripe session created but missing url',data:{hasId:!!session.id},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
+
       return NextResponse.json(
         { error: "Unable to create Stripe Checkout session" },
         { status: 500 }
       );
     }
 
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H4',location:'app/api/stripe/create-checkout-session/route.ts:POST:success',message:'Stripe session created with url',data:{hasId:!!session.id},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H9',location:'app/api/stripe/create-checkout-session/route.ts:POST:session_mode',message:'Stripe session mode flags',data:{livemode:!!(session as any).livemode,mode:session.mode ?? null},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Error creating Stripe Checkout session:", error);
+
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H4',location:'app/api/stripe/create-checkout-session/route.ts:POST:catch',message:'exception thrown',data:{errorName:error instanceof Error?error.name:'unknown',errorMessage:error instanceof Error?error.message:String(error)},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
 
     if (error instanceof Error && error.message.includes("STRIPE_SECRET_KEY")) {
       return NextResponse.json(
