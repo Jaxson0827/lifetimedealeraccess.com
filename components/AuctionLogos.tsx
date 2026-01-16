@@ -1,6 +1,6 @@
 export default function AuctionLogos() {
   return (
-    <div className="flex items-center justify-center gap-8 lg:gap-12 xl:gap-16 flex-wrap">
+    <div className="flex items-center justify-center gap-6 sm:gap-8 lg:gap-12 xl:gap-16 flex-wrap">
       {/* Manheim - Gold M in circle with serif text */}
       <div className="flex items-center gap-3">
         <svg
@@ -32,7 +32,7 @@ export default function AuctionLogos() {
             M
           </text>
         </svg>
-        <span className="text-white text-[22px] lg:text-[24px] font-serif tracking-wide">
+        <span className="text-white text-[18px] sm:text-[20px] lg:text-[24px] font-serif tracking-wide">
           Manheim
         </span>
       </div>
@@ -60,7 +60,7 @@ export default function AuctionLogos() {
             </text>
           </svg>
         </div>
-        <span className="text-white text-[9px] tracking-[0.25em] mt-1.5 font-semibold">
+        <span className="text-white text-[8px] sm:text-[9px] tracking-[0.25em] mt-1.5 font-semibold">
           AUCTIONS
         </span>
       </div>
@@ -113,7 +113,7 @@ export default function AuctionLogos() {
             fill="#1F3E8E"
           />
         </svg>
-        <span className="text-white text-[26px] lg:text-[28px] font-bold tracking-wider">
+        <span className="text-white text-[22px] sm:text-[24px] lg:text-[28px] font-bold tracking-wider">
           ADESA
         </span>
         <sup className="text-white/80 text-[9px] -ml-1 mt-[-8px]">®</sup>

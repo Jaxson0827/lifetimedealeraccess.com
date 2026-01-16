@@ -2,11 +2,12 @@
 // Add/remove consultants here as needed
 
 export const CONSULTANTS = [
-  "Alex Thompson",
-  "Maria Garcia",
-  "James Wilson",
-  "Sarah Chen",
-  "Michael Brooks",
+  "Austin Taylor",
+  "Renato Moraes",
+  "Rob Robson",
+  "Kevin Conover",
+  "Kevin Hicks",
+  "Paola Pacreu",
 ] as const;
 
 export type ConsultantName = (typeof CONSULTANTS)[number];
