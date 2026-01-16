@@ -6,6 +6,7 @@ import WinItem from "@/components/WinItem";
 import ProcessStep from "@/components/ProcessStep";
 import WarrantyBullet from "@/components/WarrantyBullet";
 import AuctionLogos from "@/components/AuctionLogos";
+import VideoLightbox from "@/components/VideoLightbox";
 
 export const metadata: Metadata = {
   title: "Lifetime Auto Sales - Access True Wholesale Pricing",
@@ -205,6 +206,7 @@ export default function Home() {
                 className="object-cover"
                 style={{ objectPosition: "center" }}
               />
+              <VideoLightbox videoId="HotO_1aVdt4" label="Watch our story" />
             </div>
           </div>
 
