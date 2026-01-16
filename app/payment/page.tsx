@@ -2,10 +2,6 @@ import { Suspense } from "react";
 import PaymentClient from "./PaymentClient";
 
 export default function PaymentPage() {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'app/payment/page.tsx:render',message:'rendering /payment page (server wrapper)',data:{},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion agent log
-
   return (
     <Suspense
       fallback={

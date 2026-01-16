@@ -15,17 +15,9 @@ export default function PaymentClient() {
 
   const wasCanceled = searchParams?.get("canceled") === "1";
 
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'app/payment/PaymentClient.tsx:render',message:'rendering PaymentClient',data:{wasCanceled},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion agent log
-
   useEffect(() => {
     // Verify we have intake data
     const data = loadIntakeData();
-
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'app/payment/PaymentClient.tsx:useEffect',message:'checking intake data',data:{hasIntakeData:!!data},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion agent log
 
     if (!data) {
       router.replace("/intake");
@@ -38,10 +30,6 @@ export default function PaymentClient() {
     if (!agreed || isSubmitting) return;
 
     setIsSubmitting(true);
-
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'app/payment/PaymentClient.tsx:handlePayment:click',message:'starting checkout session',data:{agreed,isSubmitting:false},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion agent log
 
     try {
       // Create a Stripe Checkout Session and redirect the user
@@ -66,10 +54,6 @@ export default function PaymentClient() {
         );
         return;
       }
-
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/b5521433-4fef-47a3-91d1-de50e108800b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H8',location:'app/payment/PaymentClient.tsx:handlePayment:redirect',message:'redirecting to Stripe Checkout URL',data:{urlHost:(()=>{try{return new URL(data.url).host;}catch{return 'invalid';}})(),urlPath:(()=>{try{return new URL(data.url).pathname;}catch{return 'invalid';}})()},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion agent log
 
       // Redirect to Stripe-hosted Checkout
       window.location.href = data.url;
