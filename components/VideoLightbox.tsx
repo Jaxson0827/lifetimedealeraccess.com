@@ -50,17 +50,19 @@ export default function VideoLightbox({
         aria-label={label}
       >
         <span className="absolute inset-0 bg-black/25 transition-colors duration-200 hover:bg-black/35" />
-        <span className="relative flex flex-col items-center gap-2 sm:gap-3">
-          <span className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/40 backdrop-blur-sm shadow-lg">
+        <span className="relative flex flex-col items-center gap-2 sm:gap-3 transition-transform duration-200 hover:scale-[1.04]">
+          <span className="relative inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-gold/20 ring-1 ring-gold/50 backdrop-blur-sm shadow-[0_18px_35px_-10px_rgba(0,0,0,0.65)]">
+            <span className="absolute -inset-2 rounded-full bg-gold/10 blur-md" />
+            <span className="absolute inset-0 rounded-full ring-2 ring-gold/35" />
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
-              className="h-5 w-5 sm:h-6 sm:w-6 translate-x-0.5 fill-white"
+              className="relative z-10 h-5 w-5 sm:h-6 sm:w-6 translate-x-0.5 fill-white"
             >
               <path d="M8 5.14v13.72c0 .72.78 1.17 1.39.8l10.26-6.86a1 1 0 0 0 0-1.66L9.39 4.34A1 1 0 0 0 8 5.14z" />
             </svg>
           </span>
-          <span className="text-[13px] sm:text-[14px] lg:text-[15px] font-semibold tracking-wide">
+          <span className="text-[13px] sm:text-[14px] lg:text-[15px] font-semibold tracking-wide text-gold drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
             {label}
           </span>
         </span>
