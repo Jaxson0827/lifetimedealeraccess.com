@@ -19,6 +19,24 @@ export async function POST(request: NextRequest) {
     const stripe = getStripeClient();
 
     const origin = request.nextUrl.origin;
+    let requestBody: any = null;
+
+    try {
+      requestBody = await request.json();
+    } catch {
+      // body is optional
+    }
+
+    const email =
+      typeof requestBody?.email === "string" ? requestBody.email.trim() : "";
+    const name =
+      typeof requestBody?.name === "string" ? requestBody.name.trim() : "";
+    const phone =
+      typeof requestBody?.phone === "string" ? requestBody.phone.trim() : "";
+    const vehicleLookingFor =
+      typeof requestBody?.vehicleLookingFor === "string"
+        ? requestBody.vehicleLookingFor.trim()
+        : "";
 
     const priceId = process.env.STRIPE_SETUP_DEPOSIT_PRICE_ID;
 
@@ -49,6 +67,12 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       payment_method_types: ["card"],
       line_items: lineItems,
+      customer_email: email || undefined,
+      metadata: {
+        ...(name ? { name } : {}),
+        ...(phone ? { phone } : {}),
+        ...(vehicleLookingFor ? { vehicleLookingFor } : {}),
+      },
       success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/payment?canceled=1`,
     });

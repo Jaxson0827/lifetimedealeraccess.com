@@ -1,40 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { loadIntakeData } from "@/lib/intake-types";
+import FeeScheduleTable from "@/components/FeeScheduleTable";
+import {
+  type SearchIntakeData,
+  saveSearchIntakeData,
+} from "@/lib/search-intake";
 
 export default function PaymentClient() {
-  const router = useRouter();
   const [agreed, setAgreed] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
+  const [form, setForm] = useState<SearchIntakeData>({
+    name: "",
+    email: "",
+    phone: "",
+    vehicleLookingFor: "",
+  });
 
   const wasCanceled = searchParams?.get("canceled") === "1";
 
-  useEffect(() => {
-    // Verify we have intake data
-    const data = loadIntakeData();
-
-    if (!data) {
-      router.replace("/intake");
-      return;
-    }
-    setIsLoaded(true);
-  }, [router]);
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
+  const canSubmit =
+    agreed &&
+    !isSubmitting &&
+    form.name.trim().length > 1 &&
+    isEmailValid &&
+    form.phone.trim().length >= 7 &&
+    form.vehicleLookingFor.trim().length > 0;
 
   const handlePayment = async () => {
-    if (!agreed || isSubmitting) return;
+    if (!canSubmit) return;
 
     setIsSubmitting(true);
 
     try {
+      // Persist the form so the success page can log it.
+      saveSearchIntakeData({
+        ...form,
+        submittedAt: new Date().toISOString(),
+      });
+
       // Create a Stripe Checkout Session and redirect the user
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          vehicleLookingFor: form.vehicleLookingFor,
+        }),
       });
 
       if (!response.ok) {
@@ -67,35 +86,26 @@ export default function PaymentClient() {
     }
   };
 
-  if (!isLoaded) {
-    return (
-      <main className="min-h-screen bg-[#f8fafc]">
-        <Header />
-        <div className="pt-[65px] min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1F3E8E]"></div>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-[#0a1a40]">
       <Header />
 
       <div className="pt-[65px] min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-[600px]">
-          {/* Payment Card */}
+        <div className="w-full max-w-[980px]">
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-[#1F3E8E] to-[#152d68] px-8 py-6">
-              <h1 className="text-white text-[26px] lg:text-[30px] font-bold">
-                Secure Setup & Start Sourcing
+            {/* Header / Hook */}
+            <div className="bg-gradient-to-r from-[#1F3E8E] to-[#152d68] px-8 py-8">
+              <h1 className="text-white text-[28px] lg:text-[34px] font-bold">
+                Secure Your Wholesale Advantage
               </h1>
+              <p className="text-white/80 text-[15px] lg:text-[16px] mt-2 leading-relaxed">
+                Stop overpaying at retail dealerships. Your $100 setup deposit
+                secures a dedicated expert to source and verify vehicles for
+                you—and it is fully credited toward your final consultant fee.
+              </p>
             </div>
 
-            {/* Body */}
-            <div className="px-8 py-8">
-              {/* Cancellation Notice */}
+            <div className="px-6 lg:px-10 py-8">
               {wasCanceled && (
                 <div className="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-[14px] text-yellow-800">
                   Your payment was canceled on the secure checkout page. You can
@@ -103,41 +113,210 @@ export default function PaymentClient() {
                 </div>
               )}
 
-              {/* Setup Deposit */}
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-[#1F3E8E] text-[22px] font-bold">
-                    Setup Deposit
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
+                {/* Left: Form + Pricing */}
+                <div>
+                  {/* Contact & Intent */}
+                  <h2 className="text-[#1F3E8E] text-[20px] lg:text-[22px] font-bold mb-4">
+                    Contact &amp; Intent
                   </h2>
-                  <span className="text-[#1F3E8E] text-[28px] font-bold">
-                    $100
-                  </span>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <label className="block text-gray-800 text-[14px] font-semibold mb-2">
+                        Name
+                      </label>
+                      <input
+                        value={form.name}
+                        onChange={(e) =>
+                          setForm((p) => ({ ...p, name: e.target.value }))
+                        }
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        placeholder="Full name"
+                        autoComplete="name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-800 text-[14px] font-semibold mb-2">
+                        Email
+                      </label>
+                      <input
+                        value={form.email}
+                        onChange={(e) =>
+                          setForm((p) => ({ ...p, email: e.target.value }))
+                        }
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        placeholder="you@email.com"
+                        autoComplete="email"
+                        inputMode="email"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-800 text-[14px] font-semibold mb-2">
+                        Phone
+                      </label>
+                      <input
+                        value={form.phone}
+                        onChange={(e) =>
+                          setForm((p) => ({ ...p, phone: e.target.value }))
+                        }
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        placeholder="(555) 555-5555"
+                        autoComplete="tel"
+                        inputMode="tel"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-gray-800 text-[14px] font-semibold mb-2">
+                        What vehicle are you looking for?
+                      </label>
+                      <textarea
+                        value={form.vehicleLookingFor}
+                        onChange={(e) =>
+                          setForm((p) => ({
+                            ...p,
+                            vehicleLookingFor: e.target.value,
+                          }))
+                        }
+                        rows={4}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none resize-none"
+                        placeholder="Tell us the basics (Year, Make, Model, or Budget). Your consultant will call you to finalize the exact specs once your search is activated."
+                      />
+                    </div>
+                  </div>
+
+                  {/* Fee Schedule */}
+                  <div className="mt-10">
+                    <h2 className="text-[#1F3E8E] text-[20px] lg:text-[22px] font-bold mb-4">
+                      Full Transparency: Consultant Fee Schedule
+                    </h2>
+                    <FeeScheduleTable />
+                  </div>
+
+                  {/* Transparent Pricing / Examples */}
+                  <div className="mt-10 bg-gray-50 rounded-xl p-6 border border-gray-200">
+                    <h3 className="text-gray-900 text-[16px] font-semibold mb-3">
+                      Transparent Pricing (Examples)
+                    </h3>
+                    <ul className="space-y-2 text-gray-700 text-[14px] lg:text-[15px]">
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-500 mt-1">•</span>
+                        <span>
+                          Vehicles up to $8,000: <strong>$500 Fee</strong>
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-500 mt-1">•</span>
+                        <span>
+                          $8,001 - $12,000: <strong>$600 Fee</strong>
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-500 mt-1">•</span>
+                        <span>
+                          $12,001 - $16,000: <strong>$800 Fee</strong>
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-500 mt-1">•</span>
+                        <span>
+                          $25,000+: <strong>$1,500 Fee</strong>
+                        </span>
+                      </li>
+                    </ul>
+                    <p className="text-gray-600 text-[13px] lg:text-[14px] leading-relaxed mt-4">
+                      Note: Our fee is a one-time flat fee based on the vehicle
+                      price you choose. There are no commissions or dealer
+                      markups. You stay in control by approving the final price
+                      before we move forward.
+                    </p>
+                  </div>
                 </div>
 
-                <p className="text-gray-700 text-[15px] lg:text-[16px] leading-relaxed">
-                  This $100 setup deposit, which is applied directly toward your
-                  total consultant fee and is not an additional charge,
-                  authorizes your consultant to begin sourcing and verifying
-                  wholesale vehicles that match your wish list.
-                </p>
-              </div>
+                {/* Right: Payment */}
+                <div>
+                  <h2 className="text-[#1F3E8E] text-[20px] lg:text-[22px] font-bold mb-4">
+                    Final Step: Secure Setup &amp; Payment
+                  </h2>
 
-              {/* What This Covers */}
-              <div className="mb-8">
-                <h3 className="text-gray-800 text-[16px] font-semibold mb-4">
-                  What this covers:
-                </h3>
-                <ul className="space-y-3">
-                  {[
-                    "Initial sourcing",
-                    "Market research",
-                    "Vehicle reporting",
-                    "Applied directly toward your total consultant fee",
-                    "Not an additional charge",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
+                  <div className="bg-white border border-gray-200 rounded-2xl p-6 lg:p-7 shadow-sm">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-gray-900 text-[16px] font-semibold">
+                        Setup Deposit
+                      </p>
+                      <p className="text-[#1F3E8E] text-[28px] font-bold">$100</p>
+                    </div>
+
+                    <div className="text-gray-700 text-[14px] lg:text-[15px] leading-relaxed space-y-3">
+                      <p>
+                        <strong>What this covers:</strong> Initial sourcing,
+                        market research, and vehicle reporting.
+                      </p>
+                      <p>
+                        <strong>Credit confirmation:</strong> This $100 deposit
+                        is applied directly toward your total consultant fee and
+                        is not an additional charge.
+                      </p>
+                      <p>
+                        <strong>Refund policy:</strong> 24-hour grace period for
+                        a full refund before sourcing begins.
+                      </p>
+                    </div>
+
+                    {/* Agreement Checkbox */}
+                    <div className="mt-6">
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={agreed}
+                          onChange={(e) => setAgreed(e.target.checked)}
+                          className="mt-1 w-5 h-5 text-[#1F3E8E] border-gray-300 rounded focus:ring-[#1F3E8E] cursor-pointer"
+                        />
+                        <span className="text-gray-700 text-[14px] group-hover:text-gray-900 transition-colors">
+                          I understand and agree to the terms and fee schedule
+                          above.
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Payment Button */}
+                    <button
+                      onClick={handlePayment}
+                      disabled={!canSubmit}
+                      className={`mt-6 w-full py-4 rounded-lg text-[16px] font-semibold transition-all duration-200 ${
+                        canSubmit
+                          ? "bg-cta-red text-white hover:bg-red-700 cursor-pointer shadow-lg"
+                          : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                              fill="none"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          Processing...
+                        </span>
+                      ) : (
+                        "Pay $100 & Start My Search"
+                      )}
+                    </button>
+
+                    <div className="mt-5 flex items-center justify-center gap-2 text-gray-400 text-[13px]">
                       <svg
-                        className="w-5 h-5 text-green-500 flex-shrink-0"
+                        className="w-4 h-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -146,112 +325,36 @@ export default function PaymentClient() {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M5 13l4 4L19 7"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                         />
                       </svg>
-                      <span className="text-gray-700 text-[15px]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      <span>Secure card payment processing</span>
+                    </div>
 
-              {/* Refund Policy */}
-              <div className="mb-8 bg-gray-50 rounded-xl p-6">
-                <h3 className="text-gray-800 text-[16px] font-semibold mb-3">
-                  Refund Policy
-                </h3>
-                <div className="text-gray-600 text-[14px] lg:text-[15px] leading-relaxed space-y-3">
-                  <p>
-                    You have a <strong>24-hour grace period</strong> after
-                    submitting your setup deposit to request a full refund.
-                  </p>
-                  <p>
-                    After 24 hours, or once your consultant begins sending
-                    vehicle reports or market findings (whichever comes first),
-                    the setup deposit becomes non-refundable, as services have
-                    started.
-                  </p>
+                    {!isEmailValid && form.email.trim().length > 0 && (
+                      <p className="mt-4 text-[12px] text-red-600 text-center">
+                        Please enter a valid email address.
+                      </p>
+                    )}
+                    {!canSubmit && (
+                      <p className="mt-3 text-[12px] text-gray-500 text-center">
+                        Complete the form and check the agreement box to
+                        continue.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mt-6 text-center">
+                    <a
+                      href="/get-started"
+                      className="text-white/60 text-[14px] hover:text-white transition-colors"
+                    >
+                      ← Back
+                    </a>
+                  </div>
                 </div>
               </div>
-
-              {/* Agreement Checkbox */}
-              <div className="mb-8">
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-1 w-5 h-5 text-[#1F3E8E] border-gray-300 rounded focus:ring-[#1F3E8E] cursor-pointer"
-                  />
-                  <span className="text-gray-700 text-[15px] group-hover:text-gray-900 transition-colors">
-                    I understand and agree to the terms above
-                  </span>
-                </label>
-              </div>
-
-              {/* Payment Button */}
-              <button
-                onClick={handlePayment}
-                disabled={!agreed || isSubmitting}
-                className={`w-full py-4 rounded-lg text-[17px] font-semibold transition-all duration-200 ${
-                  agreed && !isSubmitting
-                    ? "bg-cta-red text-white hover:bg-red-700 cursor-pointer shadow-lg"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="none"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  "Pay $100 & Start Sourcing"
-                )}
-              </button>
-
-              {/* Security Note */}
-              <div className="mt-6 flex items-center justify-center gap-2 text-gray-400 text-[13px]">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-                <span>Secure payment processing</span>
-              </div>
             </div>
-          </div>
-
-          {/* Back Link */}
-          <div className="mt-6 text-center">
-            <a
-              href="/results"
-              className="text-white/60 text-[14px] hover:text-white transition-colors"
-            >
-              ← Back to summary
-            </a>
           </div>
         </div>
       </div>

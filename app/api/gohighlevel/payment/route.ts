@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   submitToGHL,
-  formatPhoneForGHL,
   buildCustomFields,
   type GHLFormSubmission,
 } from "@/lib/gohighlevel";
-import { loadIntakeData } from "@/lib/intake-types";
-import { getAttributionFormFields } from "@/lib/attribution";
+
+function splitName(fullName: string | undefined): { firstName?: string; lastName?: string } {
+  if (!fullName) return {};
+  const cleaned = fullName.trim().replace(/\s+/g, " ");
+  if (!cleaned) return {};
+  const parts = cleaned.split(" ");
+  if (parts.length === 1) return { firstName: parts[0] };
+  return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
+}
 
 /**
  * POST /api/gohighlevel/payment
@@ -40,11 +46,27 @@ export async function POST(request: NextRequest) {
       attributionFields,
     } = body;
 
+    const name =
+      typeof intakeData?.name === "string"
+        ? intakeData.name
+        : typeof intakeData?.fullName === "string"
+          ? intakeData.fullName
+          : undefined;
+    const email =
+      typeof intakeData?.email === "string" ? intakeData.email : undefined;
+    const phone =
+      typeof intakeData?.phone === "string" ? intakeData.phone : undefined;
+    const { firstName, lastName } = splitName(name);
+
     // Build contact data
     const contactData: GHLFormSubmission = {
       contact: {
         source: attributionFields?.source || "Website Payment",
         tags: ["Payment", "Paid Customer", "Website"],
+        ...(firstName ? { firstName } : {}),
+        ...(lastName ? { lastName } : {}),
+        ...(email ? { email } : {}),
+        ...(phone ? { phone } : {}),
         customFields: buildCustomFields({
           ...(intakeData || {}),
           ...(attributionFields || {}),

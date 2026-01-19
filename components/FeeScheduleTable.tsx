@@ -30,8 +30,9 @@ export default function FeeScheduleTable({ highlightPriceRange }: FeeScheduleTab
   const highlightIndex = getHighlightIndex();
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200">
-      <table className="w-full">
+    <div className="rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[520px]">
         <thead>
           <tr className="bg-[#1F3E8E] text-white">
             <th className="px-6 py-4 text-left text-[14px] font-semibold">
@@ -72,7 +73,8 @@ export default function FeeScheduleTable({ highlightPriceRange }: FeeScheduleTab
             );
           })}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }

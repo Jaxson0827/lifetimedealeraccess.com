@@ -49,16 +49,16 @@ export default function ChoiceHubPage() {
               </div>
               <div className="px-8 py-6">
                 <h2 className="text-[#1F3E8E] text-[22px] lg:text-[24px] font-bold mb-2">
-                  Complete the Intake Form
+                  Start Your Search (1 Page)
                 </h2>
                 <p className="text-gray-600 text-[15px] lg:text-[16px] mb-5">
-                  This 3–5 minute form helps us understand what you&apos;re looking for and explains how our consultant fee works before we begin sourcing.
+                  A clean, one-page setup: share the basics, review the fee schedule, and secure your $100 setup deposit to activate your search.
                 </p>
                 <a
-                  href="/intake"
+                  href="/payment"
                   className="inline-block w-full text-center bg-cta-red text-white text-[16px] font-semibold py-4 rounded-lg hover:bg-red-700 transition-colors duration-200"
                 >
-                  Start the Intake Form
+                  Pay $100 & Start My Search
                 </a>
               </div>
             </div>

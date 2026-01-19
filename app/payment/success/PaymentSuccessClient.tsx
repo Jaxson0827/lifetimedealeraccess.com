@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { loadIntakeData } from "@/lib/intake-types";
 import { getAttributionFormFields } from "@/lib/attribution";
+import { loadSearchIntakeData } from "@/lib/search-intake";
 
 type Status =
   | "checking"
@@ -69,7 +69,7 @@ export default function PaymentSuccessClient() {
         // 2) Submit payment info to GoHighLevel
         setStatus("submitting_ghl");
 
-        const intakeData = loadIntakeData();
+        const intakeData = loadSearchIntakeData();
         const attributionFields = getAttributionFormFields();
 
         const ghlRes = await fetch("/api/gohighlevel/payment", {
@@ -101,9 +101,7 @@ export default function PaymentSuccessClient() {
         }
 
         setStatus("success");
-        setMessage(
-          "Payment successful! Your setup deposit has been received. A consultant will be in touch shortly."
-        );
+        setMessage("You’re all set! Your search is now active.");
       } catch (error) {
         console.error("Error during payment success handling:", error);
 
@@ -122,23 +120,17 @@ export default function PaymentSuccessClient() {
   const isLoading = status === "checking" || status === "submitting_ghl";
 
   return (
-    <main className="min-h-screen bg-[#0a1a40]">
+    <main className="min-h-screen bg-black">
       <Header />
 
       <div className="pt-[65px] min-h-screen flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-[600px]">
-          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div className="bg-gradient-to-r from-[#1F3E8E] to-[#152d68] px-8 py-6">
-              <h1 className="text-white text-[26px] lg:text-[30px] font-bold">
-                Payment Status
-              </h1>
-            </div>
-
+          <div className="border border-blue-500/30 bg-black/60 rounded-2xl shadow-2xl overflow-hidden">
             <div className="px-8 py-8">
               {isLoading && (
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1F3E8E]" />
-                  <p className="text-gray-600 text-[15px]">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400" />
+                  <p className="text-blue-200/80 text-[15px]">
                     Confirming your payment and updating your account...
                   </p>
                 </div>
@@ -146,19 +138,67 @@ export default function PaymentSuccessClient() {
 
               {!isLoading && (
                 <>
-                  <p className="text-gray-800 text-[15px] leading-relaxed mb-6">
-                    {message}
+                  <h1 className="text-blue-400 text-[26px] lg:text-[30px] font-bold mb-2">
+                    {status === "success"
+                      ? "You’re All Set! Your Search is Now Active."
+                      : "Payment Status"}
+                  </h1>
+                  <p className="text-blue-200/80 text-[15px] leading-relaxed mb-6">
+                    {status === "success"
+                      ? "We’ve received your $100 setup deposit, which has been credited to your account."
+                      : message}
                   </p>
 
                   {status === "success" && (
                     <div className="space-y-4">
-                      <p className="text-gray-700 text-[15px]">
-                        You&apos;re all set. We&apos;ll begin sourcing and
-                        verifying wholesale vehicles that match your wish list.
+                      <div className="border border-blue-500/20 rounded-xl p-5 bg-black/40">
+                        <h2 className="text-blue-300 font-semibold mb-3">
+                          What Happens Next
+                        </h2>
+                        <ul className="space-y-3 text-blue-200/80 text-[14px] leading-relaxed">
+                          <li>
+                            <span className="text-blue-300 font-semibold">
+                              Expert Review:
+                            </span>{" "}
+                            One of our professional wholesale buyers is reviewing
+                            your vehicle interests right now.
+                          </li>
+                          <li>
+                            <span className="text-blue-300 font-semibold">
+                              The Interview:
+                            </span>{" "}
+                            We will call you at the number provided within{" "}
+                            <span className="text-blue-200 font-semibold">
+                              24 business hours
+                            </span>{" "}
+                            to conduct your detailed “Wish List” interview.
+                          </li>
+                          <li>
+                            <span className="text-blue-300 font-semibold">
+                              The Hunt Begins:
+                            </span>{" "}
+                            Once we have your exact specs, we hit the wholesale
+                            markets to find your match.
+                          </li>
+                        </ul>
+                      </div>
+
+                      <p className="text-blue-200/70 text-[13px] leading-relaxed">
+                        Pro-Tip: If you have a specific question before we call,
+                        feel free to reply to your confirmation email or call us
+                        at{" "}
+                        <a
+                          href="tel:+14803325154"
+                          className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+                        >
+                          480.332.5154
+                        </a>
+                        .
                       </p>
+
                       <button
                         onClick={() => router.push("/")}
-                        className="w-full py-3.5 rounded-lg bg-cta-red text-white text-[16px] font-semibold hover:bg-red-700 transition-colors duration-200"
+                        className="w-full py-3.5 rounded-lg bg-blue-500 text-black text-[16px] font-semibold hover:bg-blue-400 transition-colors duration-200"
                       >
                         Return to Home
                       </button>
@@ -169,13 +209,13 @@ export default function PaymentSuccessClient() {
                     <div className="space-y-3">
                       <button
                         onClick={() => router.push("/payment")}
-                        className="w-full py-3.5 rounded-lg bg-[#1F3E8E] text-white text-[16px] font-semibold hover:bg-[#152d68] transition-colors duration-200"
+                        className="w-full py-3.5 rounded-lg bg-blue-500 text-black text-[16px] font-semibold hover:bg-blue-400 transition-colors duration-200"
                       >
                         Go Back to Payment
                       </button>
                       <button
                         onClick={() => router.push("/contact")}
-                        className="w-full py-3.5 rounded-lg border border-gray-300 text-[15px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                        className="w-full py-3.5 rounded-lg border border-blue-500/30 text-[15px] font-semibold text-blue-200 hover:bg-blue-500/10 transition-colors duration-200"
                       >
                         Contact Support
                       </button>
