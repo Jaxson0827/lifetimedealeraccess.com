@@ -2,12 +2,11 @@ import { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import CostCard from "@/components/CostCard";
-import ValueCallout from "@/components/ValueCallout";
 
 export const metadata: Metadata = {
-  title: "Lifetime Auto Lifetime Warranty | Lifetime Auto Sales",
-  description: "Protection that lasts as long as you own the vehicle. Lifetime warranty coverage on qualifying vehicles with nationwide protection and maintenance benefits.",
+  title: "Lifetime Auto Warranty | Lifetime Auto Sales",
+  description:
+    "Lifetime Warranty protection included on qualifying vehicles as part of your out-the-door price, with coverage tiers, maintenance benefits, and nationwide support.",
 };
 
 export default function WarrantyPage() {
@@ -15,7 +14,7 @@ export default function WarrantyPage() {
     <main className="bg-navy-dark">
       <Header />
 
-      {/* Screen 1: Hero / Overview */}
+      {/* Hero / Overview */}
       <section
         className="relative pt-[65px] overflow-hidden"
         style={{
@@ -56,33 +55,31 @@ export default function WarrantyPage() {
             <div className="max-w-[600px] lg:max-w-[650px]">
               <h1 className="text-white text-[42px] lg:text-[48px] xl:text-[52px] leading-[1.08] tracking-[-0.03em] mb-5">
                 <span className="font-serif italic font-black">
-                  <span className="text-gold">Lifetime Auto</span> Lifetime Warranty
+                  <span className="text-gold">Lifetime Auto</span> Warranty — Coverage{" "}
+                  {"&"} Benefits
                 </span>
               </h1>
 
-              <p className="text-white text-[17px] lg:text-[19px] xl:text-[21px] font-normal leading-snug mb-5 italic">
-                Protection that lasts as long as you own the vehicle —
-              </p>
-
               <p className="text-white/90 text-[15px] lg:text-[17px] leading-relaxed mb-6">
-                Buying pre-owned shouldn&apos;t feel risky.
-                <br className="hidden lg:block" />
-                That&apos;s why qualifying vehicles may include a Lifetime Warranty.
+                Every qualifying vehicle includes Lifetime Warranty protection as
+                part of your out-the-door price. Your consultant will help you
+                compare protection levels and determine which option best fits
+                your driving habits and ownership goals.
               </p>
 
               {/* Bullets */}
               <ul className="space-y-3 text-white/90 text-[15px] lg:text-[16px]">
                 <li className="flex items-start gap-2">
                   <span className="text-white/60 mt-1">•</span>
-                  <span>Lifetime coverage on qualifying vehicles</span>
+                  <span>Coverage tiers for different ownership needs</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-white/60 mt-1">•</span>
-                  <span>Nationwide protection & support</span>
+                  <span>Maintenance benefits to reduce long-term costs</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-white/60 mt-1">•</span>
-                  <span>Reviewed with you before you buy</span>
+                  <span>Nationwide coverage and support (U.S. and Canada)</span>
                 </li>
               </ul>
             </div>
@@ -102,56 +99,7 @@ export default function WarrantyPage() {
         </div>
       </section>
 
-      {/* Screen 2: Built for Long-Term Ownership */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        {/* Background image layer */}
-        <Image
-          src="/sections/warranty.png"
-          alt=""
-          fill
-          className="object-cover"
-          style={{ objectPosition: "right center" }}
-        />
-
-        {/* Overlay layers */}
-        <div className="absolute inset-0 bg-[#1F3E8E]/35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1F3E8E]/60 via-[#1F3E8E]/40 to-transparent" />
-
-        <div className="relative z-10 max-w-[1400px] mx-auto px-8 lg:px-16">
-          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-12 lg:mb-16">
-            Built for Long-Term Ownership
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-[1200px] mx-auto mb-10">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 backdrop-blur-sm">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                No mileage limits on covered components
-              </h3>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 backdrop-blur-sm">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                Coverage lasts as long as you own the vehicle
-              </h3>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 backdrop-blur-sm">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                Valid throughout the U.S. & Canada
-              </h3>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 backdrop-blur-sm">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                Buyer-first review before you commit
-              </h3>
-            </div>
-          </div>
-
-          <p className="text-white text-[18px] lg:text-[20px] text-center italic">
-            No guessing. No surprises.
-          </p>
-        </div>
-      </section>
-
-      {/* Screen 3: Coverage Levels */}
+      {/* Coverage Tiers */}
       <section
         className="relative py-24 lg:py-32 overflow-hidden"
         style={{
@@ -168,90 +116,147 @@ export default function WarrantyPage() {
       >
         <div className="relative z-10 max-w-[1400px] mx-auto px-8 lg:px-16">
           <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-4">
-            Three Coverage Levels — Built for How Long You Own Your Vehicle
+            Coverage Tiers
           </h2>
           <p className="text-white text-[18px] lg:text-[20px] text-center mb-12 lg:mb-16">
-            Every Lifetime Warranty starts with Powertrain protection, with optional upgrades.
+            Your consultant will help you compare protection levels and select
+            the right fit.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300">
               <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
                 Powertrain Coverage
               </h3>
               <p className="text-white/70 text-[14px] lg:text-[15px] italic mb-6">
-                Major mechanical protection for life
+                Protects core mechanical systems, including:
               </p>
               <ul className="space-y-2">
                 <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
                   <span className="text-white/60 mt-1">•</span>
-                  <span>Engine, transmission, drive axles</span>
+                  <span>Engine components (internally lubricated parts)</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>
+                    Transmission components (internally lubricated parts)
+                  </span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Drive axle &amp; transfer case components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Turbocharger or supercharger components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Fuel system components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Cooling system components</span>
                 </li>
               </ul>
             </div>
             <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300">
               <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
-                Expanded Coverage
+                Essentials Coverage
               </h3>
-              <p className="text-white/70 text-[14px] lg:text-[15px] italic">
-                Adds protection beyond the powertrain
+              <p className="text-white/70 text-[14px] lg:text-[15px] italic mb-6">
+                (Adds to Powertrain)
               </p>
+              <ul className="space-y-2">
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Air conditioning system components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Steering &amp; suspension components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Brake system components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>
+                    Electrical components (windows, seats, locks, sensors,
+                    ignition)
+                  </span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Rental car reimbursement (benefit included)</span>
+                </li>
+              </ul>
             </div>
             <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300">
               <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
                 Plus Coverage
               </h3>
               <p className="text-white/70 text-[14px] lg:text-[15px] italic mb-6">
-                Our most comprehensive protection
+                (Adds to Essentials)
               </p>
               <ul className="space-y-2">
                 <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
                   <span className="text-white/60 mt-1">•</span>
-                  <span>Steering & suspension components</span>
+                  <span>Expanded cooling system components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Expanded suspension components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Additional fuel system components</span>
+                </li>
+                <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                  <span className="text-white/60 mt-1">•</span>
+                  <span>Cruise control system components</span>
                 </li>
               </ul>
+            </div>
+            <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300 lg:col-span-4">
+              <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+                <div className="lg:col-span-1">
+                  <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
+                    {"EV & Hybrid"} Coverage
+                  </h3>
+                  <p className="text-white/70 text-[14px] lg:text-[15px] italic">
+                    Qualifying EV and Hybrid vehicles receive specialized
+                    protection, including:
+                  </p>
+                </div>
+                <div className="lg:col-span-2">
+                  <ul className="space-y-2">
+                    <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                      <span className="text-white/60 mt-1">•</span>
+                      <span>Drive battery &amp; electric motor</span>
+                    </li>
+                    <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                      <span className="text-white/60 mt-1">•</span>
+                      <span>Electronic control modules &amp; ECU systems</span>
+                    </li>
+                    <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                      <span className="text-white/60 mt-1">•</span>
+                      <span>Wiring harnesses &amp; sensors</span>
+                    </li>
+                    <li className="text-white/90 text-[14px] lg:text-[15px] flex items-start gap-2">
+                      <span className="text-white/60 mt-1">•</span>
+                      <span>Gearbox &amp; hybrid drivetrain components</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Screen 4: Annual Value */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        {/* Background image layer */}
-        <Image
-          src="/sections/process.png"
-          alt=""
-          fill
-          className="object-cover"
-          style={{ objectPosition: "center" }}
-        />
-
-        {/* Subtle overlay */}
-        <div className="absolute inset-0 bg-[#1F3E8E]/25" />
-
-        <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16">
-          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-4">
-            Real Value You Use Every Year
-          </h2>
-          <p className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-6">
-            Not Just When Something Breaks
-          </p>
-
-          <p className="text-white text-[17px] lg:text-[19px] text-center mb-10 leading-relaxed">
-            Your Lifetime Warranty includes real, paid-for maintenance benefits — not discounts.
-          </p>
-
-          <div className="flex justify-center mb-10">
-            <ValueCallout value="$600+" label="per year" size="large" />
-          </div>
-
-          <p className="text-white/70 text-[15px] lg:text-[16px] text-center italic">
-            For many drivers, these benefits alone can exceed $600+ per year
-          </p>
-        </div>
-      </section>
-
-      {/* Screen 5: Maintenance Benefits */}
+      {/* Maintenance Benefits */}
       <section
         className="relative py-24 lg:py-32 overflow-hidden"
         style={{
@@ -266,72 +271,54 @@ export default function WarrantyPage() {
           `,
         }}
       >
-        <div className="relative z-10 max-w-[800px] mx-auto px-8 lg:px-16">
+        <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16">
           <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-12 lg:mb-16">
-            Maintenance Benefits — Included with Your Lifetime Warranty
+            Maintenance Benefits
           </h2>
 
-          <ul className="space-y-5 lg:space-y-6">
-            <li className="text-white text-[18px] lg:text-[20px] font-semibold flex items-start gap-2">
+          <p className="text-white text-[18px] lg:text-[20px] text-center mb-10">
+            Designed to reduce long-term ownership costs and support proper
+            vehicle care:
+          </p>
+
+          <ul className="space-y-4 lg:space-y-5 max-w-[720px] mx-auto">
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
               <span className="text-white/60 mt-1">•</span>
-              <span>Oil & Filter Changes</span>
+              <span>Oil &amp; filter changes</span>
             </li>
-            <li className="text-white text-[18px] lg:text-[20px] font-semibold flex items-start gap-2">
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
               <span className="text-white/60 mt-1">•</span>
-              <span>Brake Pad Replacement</span>
+              <span>Tire rotation</span>
             </li>
-            <li className="text-white text-[18px] lg:text-[20px] font-semibold flex items-start gap-2">
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
               <span className="text-white/60 mt-1">•</span>
-              <span>Battery Replacement</span>
+              <span>Wheel alignment</span>
             </li>
-            <li className="text-white text-[18px] lg:text-[20px] font-semibold flex items-start gap-2">
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
               <span className="text-white/60 mt-1">•</span>
-              <span>Tire Rotations</span>
+              <span>Cooling system service</span>
             </li>
-            <li className="text-white text-[18px] lg:text-[20px] font-semibold flex items-start gap-2">
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
               <span className="text-white/60 mt-1">•</span>
-              <span>Annual Inspection</span>
+              <span>Battery replacement (one-time)</span>
+            </li>
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Brake pads/shoes (one-time parts benefit)</span>
+            </li>
+            <li className="text-white text-[17px] lg:text-[19px] font-semibold flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Front wiper blade replacement</span>
             </li>
           </ul>
-        </div>
-      </section>
 
-      {/* Screen 6: Why This Matters */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        {/* Background image layer */}
-        <Image
-          src="/sections/repairs.png"
-          alt=""
-          fill
-          className="object-cover"
-          style={{ objectPosition: "center" }}
-        />
-
-        {/* Overlay layers */}
-        <div className="absolute inset-0 bg-[#1F3E8E]/40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1F3E8E]/50 via-[#1F3E8E]/35 to-[#1F3E8E]/50" />
-
-        <div className="relative z-10 max-w-[1200px] mx-auto px-8 lg:px-16">
-          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-4">
-            Why This Matters — Big Repairs Are Expensive
-          </h2>
-          <p className="text-white text-[18px] lg:text-[20px] text-center mb-12 lg:mb-16 italic">
-            Your Lifetime Warranty covers major breakdowns, like:
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-10">
-            <CostCard component="Engine" cost="$6,500+" />
-            <CostCard component="Transmission" cost="$3,500+" />
-            <CostCard component="Air Conditioning" cost="$1,500+" />
-          </div>
-
-          <p className="text-white text-[18px] lg:text-[20px] text-center italic">
-            With us, you&apos;re protected from these costs.
+          <p className="text-white/70 text-[14px] lg:text-[15px] text-center italic mt-10">
+            Additional Hi-Line upgrade available
           </p>
         </div>
       </section>
 
-      {/* Screen 7: Coverage Confidence */}
+      {/* Additional Ownership Benefits */}
       <section
         className="relative py-24 lg:py-32 overflow-hidden"
         style={{
@@ -348,100 +335,350 @@ export default function WarrantyPage() {
       >
         <div className="relative z-10 max-w-[1200px] mx-auto px-8 lg:px-16">
           <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-12 lg:mb-16">
-            Coverage Wherever Life Takes You
+            Additional Ownership Benefits
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
             <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8">
               <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                U.S. & Canada Coverage
-              </h3>
-              <p className="text-white/90 text-[15px] lg:text-[16px]">
-                Nationwide and cross-border protection
-              </p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
-                Nationwide Repair Facilities
-              </h3>
-              <p className="text-white/90 text-[15px] lg:text-[16px]">
-                Access to authorized service locations across the country
-              </p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8">
-              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
                 24/7 Roadside Assistance
               </h3>
               <p className="text-white/90 text-[15px] lg:text-[16px]">
-                Help available anytime, anywhere
+                Towing, lockout, jump start, and flat tire support
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Screen 8: Vehicle Replacement Benefit */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        {/* Background image layer */}
-        <Image
-          src="/sections/replacement.png"
-          alt=""
-          fill
-          className="object-cover"
-          style={{ objectPosition: "center" }}
-        />
-
-        {/* Overlay layers */}
-        <div className="absolute inset-0 bg-[#1F3E8E]/35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1F3E8E]/60 via-[#1F3E8E]/40 to-transparent" />
-
-        <div className="relative z-10 max-w-[1400px] mx-auto px-8 lg:px-16">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column - Featured Image */}
-            <div className="flex justify-center lg:justify-start">
-              <div className="relative h-[300px] lg:h-[400px] xl:h-[450px] w-full max-w-[400px] lg:max-w-[500px] overflow-hidden rounded-tl-[60px] rounded-br-[60px] rounded-tr-[20px] rounded-bl-[20px] ring-1 ring-white/15"
-                style={{
-                  boxShadow: "0 25px 60px -15px rgba(0, 0, 0, 0.55)"
-                }}
-              >
-                <Image
-                  src="/sections/hero.png"
-                  alt=""
-                  fill
-                  className="object-cover"
-                  style={{ objectPosition: "center" }}
-                />
-              </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
+                Auto Deductible Reimbursement (ADR)
+              </h3>
+              <p className="text-white/90 text-[15px] lg:text-[16px]">
+                Help offset deductible costs for qualifying events
+              </p>
             </div>
-
-            {/* Right Column - Content */}
-            <div>
-              <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic mb-4">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
                 Vehicle Replacement Benefit
-              </h2>
-              <p className="text-white text-[18px] lg:text-[20px] mb-4">
-                Extra protection when the unexpected happens
+              </h3>
+              <p className="text-white/90 text-[15px] lg:text-[16px]">
+                Replacement benefit may apply for qualifying loss events
               </p>
-              <p className="text-white text-[17px] lg:text-[19px] mb-6 leading-relaxed">
-                If your vehicle experiences a qualifying total loss or catastrophic failure:
-              </p>
-
-              {/* Highlight box */}
-              <div className="bg-white/10 border-2 border-gold rounded-2xl p-6 lg:p-8 mb-6">
-                <p className="text-gold text-[20px] lg:text-[24px] font-bold">
-                  $2,000 toward a replacement vehicle from Lifetime Auto
-                </p>
-              </div>
-
-              <p className="text-white text-[18px] lg:text-[20px] italic">
-                A safety net designed to keep you moving forward — not starting over.
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 md:col-span-3">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-2">
+                Nationwide Coverage
+              </h3>
+              <p className="text-white/90 text-[15px] lg:text-[16px]">
+                Coverage throughout the U.S. and Canada
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Screen 9: Call to Action */}
+      {/* Warranty FAQ (after ownership benefits) */}
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="relative z-10 max-w-[1200px] mx-auto px-8 lg:px-16">
+          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-12 lg:mb-16">
+            Warranty FAQ
+          </h2>
+
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 lg:p-8">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-4">
+                A. General
+              </h3>
+              <div className="space-y-5">
+                <div>
+                  <p className="text-white font-semibold">Q: Is the warranty included?</p>
+                  <p className="text-white/85">
+                    A: Yes. Warranty protection is included on all qualifying
+                    vehicles as part of your out-the-door price.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Do all vehicles qualify?</p>
+                  <p className="text-white/85">
+                    A: No. Vehicles must meet specific eligibility standards.
+                    Your consultant will review qualification during the
+                    sourcing process.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Is the warranty really lifetime?</p>
+                  <p className="text-white/85">
+                    A: Lifetime means for as long as you own the vehicle,
+                    subject to contract terms and eligibility requirements.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Can I choose my coverage level?</p>
+                  <p className="text-white/85">
+                    A: Yes. Your consultant will help you compare coverage
+                    tiers and select the level that best fits your driving
+                    needs.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Are electric or hybrid vehicles included?</p>
+                  <p className="text-white/85">
+                    A: Yes. EV and Hybrid vehicles receive specialized coverage
+                    for battery, motor, electronics, and drivetrain components.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Where can I take my vehicle for repairs?</p>
+                  <p className="text-white/85">
+                    A: Covered repairs may be performed at ASE-certified repair
+                    shops, dealership service centers, or qualified EV/Hybrid
+                    repair facilities.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Does this include roadside assistance?</p>
+                  <p className="text-white/85">
+                    A: Yes, 24/7 roadside assistance is included.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Is maintenance included?</p>
+                  <p className="text-white/85">
+                    A: Yes. Maintenance benefits are included to help reduce
+                    ongoing ownership costs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 lg:p-8">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-4">
+                B. Technical Coverage
+              </h3>
+              <div className="space-y-5">
+                <div>
+                  <p className="text-white font-semibold">Q: What does Powertrain Coverage include?</p>
+                  <p className="text-white/85">
+                    A: Engine, transmission, drive axle, turbo/supercharger,
+                    fuel system, and cooling system components.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: What does Essentials Coverage add?</p>
+                  <p className="text-white/85">
+                    A: Air conditioning, suspension, steering, brake, and
+                    electrical systems plus rental car reimbursement.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: What does Plus Coverage add?</p>
+                  <p className="text-white/85">
+                    A: Additional cooling, suspension, fuel, and cruise control
+                    system components.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: What EV components are covered?</p>
+                  <p className="text-white/85">
+                    A: Drive battery, electric motor, control modules, wiring
+                    harnesses, sensors, gearbox, and hybrid drivetrain
+                    components.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 lg:p-8">
+              <h3 className="text-white text-[18px] lg:text-[20px] font-semibold mb-4">
+                C. Eligibility &amp; Process
+              </h3>
+              <div className="space-y-5">
+                <div>
+                  <p className="text-white font-semibold">Q: How do I know if a vehicle is eligible?</p>
+                  <p className="text-white/85">
+                    A: Eligibility is determined during the sourcing process
+                    based on year, mileage, condition, history, and use case.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: How do claims work?</p>
+                  <p className="text-white/85">
+                    A: Claims are submitted through licensed repair facilities
+                    and processed according to contract terms.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Do I need maintenance records?</p>
+                  <p className="text-white/85">
+                    A: Maintenance documentation may be required to maintain
+                    eligibility for certain lifetime or long-term coverage
+                    components.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Is the warranty transferable?</p>
+                  <p className="text-white/85">
+                    A: Transferability varies by contract. Your consultant can
+                    review this if important to your ownership plan.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Q: Can commercial or rideshare vehicles qualify?</p>
+                  <p className="text-white/85">
+                    A: Some commercial uses may qualify depending on eligibility
+                    rules.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Eligibility Review */}
+      <section
+        className="relative py-24 lg:py-32 overflow-hidden"
+        style={{
+          background: `
+            radial-gradient(
+              ellipse 80% 70% at 50% 40%,
+              #2a4a9a 0%,
+              #1F3E8E 30%,
+              #152d68 60%,
+              #0a1a40 100%
+            )
+          `,
+        }}
+      >
+        <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16">
+          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-10">
+            Eligibility Review
+          </h2>
+
+          <p className="text-white text-[18px] lg:text-[20px] text-center mb-10">
+            Your consultant will review:
+          </p>
+
+          <ul className="space-y-3 max-w-[760px] mx-auto text-white/90 text-[15px] lg:text-[16px]">
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Vehicle year, mileage, and condition</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Vehicle history and disclosures</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Use case (personal vs. commercial)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>
+                Custom modifications (e.g., lift kits, oversized tires)
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>EV vs. ICE qualification</span>
+            </li>
+          </ul>
+
+          <p className="text-white/80 text-[14px] lg:text-[15px] text-center italic mt-10">
+            Only vehicles that meet program standards are eligible for Lifetime
+            Warranty coverage.
+          </p>
+        </div>
+      </section>
+
+      {/* Repair & Claims Process */}
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16">
+          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-10">
+            Repair &amp; Claims Process
+          </h2>
+
+          <p className="text-white text-[18px] lg:text-[20px] text-center mb-10">
+            Covered repairs may be performed through:
+          </p>
+
+          <ul className="space-y-3 max-w-[760px] mx-auto text-white/90 text-[15px] lg:text-[16px]">
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>ASE-certified repair facilities</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Dealership service centers</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>
+                Specialized EV/Hybrid service facilities (where applicable)
+              </span>
+            </li>
+          </ul>
+
+          <p className="text-white/80 text-[14px] lg:text-[15px] text-center italic mt-10">
+            Claims are submitted through licensed repair facilities and
+            processed according to contract terms.
+          </p>
+        </div>
+      </section>
+
+      {/* Pricing Transparency */}
+      <section
+        className="relative py-24 lg:py-32 overflow-hidden"
+        style={{
+          background: `
+            radial-gradient(
+              ellipse 80% 70% at 50% 40%,
+              #2a4a9a 0%,
+              #1F3E8E 30%,
+              #152d68 60%,
+              #0a1a40 100%
+            )
+          `,
+        }}
+      >
+        <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16">
+          <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic text-center mb-10">
+            Pricing Transparency
+          </h2>
+
+          <p className="text-white text-[18px] lg:text-[20px] text-center mb-10">
+            When vehicle options are presented, you will receive a clear line-item
+            breakdown that includes:
+          </p>
+
+          <ul className="space-y-3 max-w-[760px] mx-auto text-white/90 text-[15px] lg:text-[16px]">
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Vehicle acquisition cost</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Auction fees</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Transportation</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Reconditioning (if needed and approved)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-white/60 mt-1">•</span>
+              <span>Warranty protection</span>
+            </li>
+          </ul>
+
+          <p className="text-white/80 text-[14px] lg:text-[15px] text-center italic mt-10">
+            This provides clarity before any purchase decision.
+          </p>
+        </div>
+      </section>
+
+      {/* Call to Action (keep identical to other pages) */}
       <section
         className="relative py-24 lg:py-32 overflow-hidden"
         style={{
@@ -458,7 +695,7 @@ export default function WarrantyPage() {
       >
         <div className="relative z-10 max-w-[900px] mx-auto px-8 lg:px-16 text-center">
           <h2 className="text-gold text-[42px] lg:text-[48px] xl:text-[52px] font-serif italic mb-4">
-            Ready to Secure Your Lifetime Warranty?
+            Ready to Get Started?
           </h2>
           <p className="text-white text-[18px] lg:text-[20px] mb-10 italic">
             A quick conversation. Clear answers.
@@ -466,9 +703,9 @@ export default function WarrantyPage() {
 
           <a
             href="/get-started"
-            className="inline-block bg-cta-red text-white text-[15px] lg:text-[16px] font-semibold px-10 py-5 rounded-[6px] mb-6 hover:bg-red-700 transition-colors duration-200"
+            className="inline-block bg-cta-red text-white text-[14px] lg:text-[15px] font-semibold px-6 lg:px-7 py-3.5 lg:py-4 rounded-[6px] mb-6 hover:bg-red-700 transition-colors duration-200"
           >
-            Schedule a 10-Minute Buying Consultation
+            Get Started
           </a>
 
           <div className="space-y-2">
@@ -482,6 +719,13 @@ export default function WarrantyPage() {
               Coverage details reviewed prior to purchase.
             </p>
           </div>
+
+          <p className="text-white/60 text-[12px] lg:text-[13px] leading-relaxed italic mt-10">
+            Coverage summaries are provided for informational purposes only. All
+            coverage is subject to eligibility, terms, conditions, limitations,
+            and exclusions. Refer to your service agreement for complete
+            details.
+          </p>
         </div>
       </section>
 
