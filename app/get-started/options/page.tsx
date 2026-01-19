@@ -49,7 +49,7 @@ export default function ChoiceHubPage() {
               </div>
               <div className="px-8 py-6">
                 <h2 className="text-[#1F3E8E] text-[22px] lg:text-[24px] font-bold mb-2">
-                  Start Your Vehicle Search (Quick Intake)
+                  Start Your Vehicle Search
                 </h2>
                 <p className="text-gray-600 text-[15px] lg:text-[16px] mb-5">
                   Complete a short intake, review the fee schedule, and submit the $100 setup deposit to activate your search.

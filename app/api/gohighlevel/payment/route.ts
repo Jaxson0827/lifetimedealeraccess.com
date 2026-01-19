@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  submitToGHL,
   buildCustomFields,
-  type GHLFormSubmission,
   formatPhoneForGHL,
 } from "@/lib/gohighlevel";
 import { searchIntakeSchema } from "@/lib/search-intake-validation";
+import { submitToGHLWebhook } from "@/lib/gohighlevel-webhook";
 
 function splitName(fullName: string | undefined): { firstName?: string; lastName?: string } {
   if (!fullName) return {};
@@ -24,19 +23,8 @@ function splitName(fullName: string | undefined): { firstName?: string; lastName
  */
 export async function POST(request: NextRequest) {
   try {
-    // Get environment variables
-    const apiKey = process.env.GOHIGHLEVEL_API_KEY;
-    const locationId = process.env.GOHIGHLEVEL_LOCATION_ID;
     const pipelineId = process.env.GOHIGHLEVEL_PIPELINE_ID; // Optional
     const stageId = process.env.GOHIGHLEVEL_STAGE_ID; // Optional
-
-    if (!apiKey || !locationId) {
-      console.error("GoHighLevel credentials not configured");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
 
     // Parse request body
     const body = await request.json();
@@ -67,24 +55,21 @@ export async function POST(request: NextRequest) {
       typeof safeIntake?.phone === "string" ? safeIntake.phone : undefined;
     const { firstName, lastName } = splitName(name);
 
-    // Build contact data
-    const contactData: GHLFormSubmission = {
+    const submittedAt = new Date().toISOString();
+
+    await submitToGHLWebhook({
+      event: "payment",
+      submittedAt,
+      amount,
+      paymentMethod: paymentMethod || "unknown",
+      transactionId: transactionId || "",
+      tags: ["Payment", "Paid Customer", "Website"],
+      source: attributionFields?.source || "Website Payment",
       contact: {
-        source: attributionFields?.source || "Website Payment",
-        tags: ["Payment", "Paid Customer", "Website"],
         ...(firstName ? { firstName } : {}),
         ...(lastName ? { lastName } : {}),
         ...(email ? { email } : {}),
         ...(phone ? { phone: formatPhoneForGHL(phone) } : {}),
-        customFields: buildCustomFields({
-          ...(safeIntake || {}),
-          ...(attributionFields || {}),
-          paymentAmount: amount,
-          paymentMethod: paymentMethod || "unknown",
-          transactionId: transactionId || "",
-          submissionType: "payment",
-          submittedAt: new Date().toISOString(),
-        }),
       },
       opportunity: {
         title: `Payment Received - ${amount ? `$${amount}` : "Vehicle Inquiry"}`,
@@ -102,18 +87,26 @@ export async function POST(request: NextRequest) {
         },
       },
       notes: buildPaymentNotes(amount, paymentMethod, transactionId, safeIntake),
-    };
-
-    // Submit to GoHighLevel
-    const result = await submitToGHL(apiKey, locationId, contactData);
+      // Keep a flattened version for easier mapping inside GHL workflows
+      customFields: buildCustomFields({
+        ...(safeIntake || {}),
+        ...(attributionFields || {}),
+        paymentAmount: amount,
+        paymentMethod: paymentMethod || "unknown",
+        transactionId: transactionId || "",
+        submissionType: "payment",
+        submittedAt,
+      }),
+      intakeData: intakeData || {},
+      attribution: attributionFields || {},
+      raw: body,
+    });
 
     return NextResponse.json({
       success: true,
-      contactId: result.contactId,
-      opportunityId: result.opportunityId,
     });
   } catch (error) {
-    console.error("Error submitting payment to GoHighLevel:", error);
+    console.error("Error submitting payment to GoHighLevel webhook:", error);
     return NextResponse.json(
       {
         error: "Failed to submit payment data",

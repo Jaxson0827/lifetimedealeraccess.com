@@ -11,14 +11,9 @@ The integration automatically sends form submissions to GoHighLevel:
 
 ## Setup Instructions
 
-### Step 1: Get Your GoHighLevel API Credentials
+### Step 1: Create a GoHighLevel Webhook Trigger
 
-1. Log in to your GoHighLevel account
-2. Navigate to **Settings** > **Integrations** > **API**
-3. Click **Generate API Key** (or use an existing one)
-4. Copy your **API Key**
-5. Navigate to **Settings** > **Locations**
-6. Copy your **Location ID** (found in the URL or location settings)
+Create a workflow (or automation) in GoHighLevel that starts with a **Webhook Trigger**. Copy the trigger URL (LeadConnector webhook URL).
 
 ### Step 2: Configure Environment Variables
 
@@ -26,11 +21,8 @@ The integration automatically sends form submissions to GoHighLevel:
 
 2. Add the following environment variables to `.env.local`:
    ```env
-   # Required: Your GoHighLevel API Key
-   GOHIGHLEVEL_API_KEY=your_actual_api_key_here
-   
-   # Required: Your GoHighLevel Location ID
-   GOHIGHLEVEL_LOCATION_ID=your_actual_location_id_here
+   # Required: GoHighLevel webhook trigger URL
+   GOHIGHLEVEL_WEBHOOK_URL=your_webhook_trigger_url_here
    
    # Optional: Pipeline ID for opportunities/deals
    GOHIGHLEVEL_PIPELINE_ID=
@@ -39,7 +31,7 @@ The integration automatically sends form submissions to GoHighLevel:
    GOHIGHLEVEL_STAGE_ID=
    ```
 
-3. Fill in your actual API key and Location ID
+3. Fill in your actual webhook trigger URL
 
 4. (Optional) Set up Pipeline and Stage IDs:
    - Navigate to **Pipelines** in GoHighLevel
@@ -108,8 +100,8 @@ All form data is stored in GoHighLevel custom fields. The field names match the 
 
 - `submissionType`: "contact_form", "intake_form", or "payment"
 - `submittedAt`: ISO timestamp
-- `attributionSource`: "consultant" or "online"
-- `consultantName`: Name of referring consultant (if applicable)
+- `attribution_source`: "consultant" or "online"
+- `consultant_name`: Name of referring consultant (if applicable)
 - `dreamVehicle`: Primary vehicle interest
 - `priceRange`: Selected price range
 - `paymentMethod`: Payment method selected
@@ -119,32 +111,24 @@ All form data is stored in GoHighLevel custom fields. The field names match the 
 
 ### Contacts Not Appearing in GoHighLevel
 
-1. **Check API Key**: Verify your API key is correct and has proper permissions
-2. **Check Location ID**: Ensure the Location ID matches your account
+1. **Check Webhook URL**: Verify `GOHIGHLEVEL_WEBHOOK_URL` is correct
+2. **Check Workflow Trigger**: Ensure the workflow is enabled and the webhook trigger is the entry point
 3. **Check Server Logs**: Look for error messages in your terminal/console
 4. **Check Browser Console**: Look for client-side errors
 
 ### Common Errors
 
-- **401 Unauthorized**: Invalid API key
-- **404 Not Found**: Invalid Location ID
+- **"invalid data: Body payload"**: The webhook was hit without a JSON body (ensure `Content-Type: application/json` and a valid body)
 - **500 Server Error**: Check server logs for detailed error messages
 
-### Testing API Directly
+### Testing Webhook Directly
 
-You can test the GoHighLevel API directly using curl:
+You can test the webhook trigger directly using curl:
 
 ```bash
-curl -X POST https://rest.gohighlevel.com/v1/contacts/ \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST "$GOHIGHLEVEL_WEBHOOK_URL" \
   -H "Content-Type: application/json" \
-  -H "Version: 2021-07-28" \
-  -d '{
-    "locationId": "YOUR_LOCATION_ID",
-    "firstName": "Test",
-    "lastName": "User",
-    "email": "test@example.com"
-  }'
+  -d '{"event":"test","submittedAt":"2026-01-01T00:00:00.000Z","hello":"world"}'
 ```
 
 ## Advanced Configuration
@@ -171,8 +155,7 @@ If you set `GOHIGHLEVEL_PIPELINE_ID` and `GOHIGHLEVEL_STAGE_ID`, opportunities w
 
 ## Support
 
-For GoHighLevel API documentation, visit:
-https://highlevel.stoplight.io/docs/integrations
+For GoHighLevel webhook/workflow documentation, refer to GoHighLevel's workflow + webhook trigger docs in your account.
 
 For issues with this integration, check:
 - Server logs (`npm run dev` output)

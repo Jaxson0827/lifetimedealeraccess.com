@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  submitToGHL,
   formatPhoneForGHL,
   buildCustomFields,
-  type GHLFormSubmission,
 } from "@/lib/gohighlevel";
+import { submitToGHLWebhook } from "@/lib/gohighlevel-webhook";
 
 /**
  * POST /api/gohighlevel/contact
@@ -13,18 +12,6 @@ import {
  */
 export async function POST(request: NextRequest) {
   try {
-    // Get environment variables
-    const apiKey = process.env.GOHIGHLEVEL_API_KEY;
-    const locationId = process.env.GOHIGHLEVEL_LOCATION_ID;
-
-    if (!apiKey || !locationId) {
-      console.error("GoHighLevel credentials not configured");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
-
     // Parse request body
     const body = await request.json();
 
@@ -45,36 +32,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build contact data
-    const contactData: GHLFormSubmission = {
+    const submittedAt = new Date().toISOString();
+
+    // Submit to GoHighLevel via webhook
+    await submitToGHLWebhook({
+      event: "contact_form",
+      submittedAt,
       contact: {
         firstName,
         lastName,
         email,
         phone: phone ? formatPhoneForGHL(phone) : undefined,
-        source: "Website Contact Form",
-        tags: ["Contact Form", "Website"],
-        customFields: buildCustomFields({
-          ...attributionFields,
-          message: message || "",
-          submissionType: "contact_form",
-          submittedAt: new Date().toISOString(),
-        }),
       },
-      notes: message
-        ? `Contact Form Message:\n\n${message}`
-        : "Contact form submission",
-    };
-
-    // Submit to GoHighLevel
-    const result = await submitToGHL(apiKey, locationId, contactData);
+      message: message || "",
+      tags: ["Contact Form", "Website"],
+      source: "Website Contact Form",
+      // Keep a flattened version for easier mapping inside GHL workflows
+      customFields: buildCustomFields({
+        ...attributionFields,
+        message: message || "",
+        submissionType: "contact_form",
+        submittedAt,
+      }),
+      attribution: attributionFields,
+      raw: body,
+    });
 
     return NextResponse.json({
       success: true,
-      contactId: result.contactId,
     });
   } catch (error) {
-    console.error("Error submitting to GoHighLevel:", error);
+    console.error("Error submitting contact form to GoHighLevel webhook:", error);
     return NextResponse.json(
       {
         error: "Failed to submit form",
