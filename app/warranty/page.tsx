@@ -124,7 +124,8 @@ export default function WarrantyPage() {
             the right fit.
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          {/* Center the 3 tier cards on large screens */}
+          <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300">
               <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
                 Powertrain Coverage
@@ -220,7 +221,11 @@ export default function WarrantyPage() {
                 </li>
               </ul>
             </div>
-            <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300 lg:col-span-4">
+          </div>
+
+          {/* Full-width EV & Hybrid block below */}
+          <div className="mt-6 lg:mt-8">
+            <div className="relative rounded-2xl p-6 lg:p-8 bg-white/5 border border-white/10 transition-all duration-300">
               <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
                 <div className="lg:col-span-1">
                   <h3 className="text-white text-[24px] lg:text-[28px] font-serif italic mb-2">
