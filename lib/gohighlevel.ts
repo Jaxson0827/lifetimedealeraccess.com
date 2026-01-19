@@ -48,22 +48,10 @@ export async function createGHLContact(
   locationId: string,
   contact: GHLContact
 ): Promise<{ contactId: string }> {
-  // #region agent log
-  const fs = require('fs');
-  const logPath = 'c:\\Users\\hales\\Downloads\\concierge7.0\\.cursor\\debug.log';
-  const logEntry = {location:'gohighlevel.ts:46',message:'createGHLContact called',data:{hasApiKey:!!apiKey,hasLocationId:!!locationId,hasEmail:!!contact.email},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'};
-  try { fs.appendFileSync(logPath, JSON.stringify(logEntry) + '\n'); } catch {}
-  // #endregion
-
   const requestBody = {
     ...contact,
     locationId,
   };
-  
-  // #region agent log
-  const logEntry2 = {location:'gohighlevel.ts:54',message:'GHL API request starting',data:{url:'https://rest.gohighlevel.com/v1/contacts/',method:'POST',hasLocationId:!!requestBody.locationId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'};
-  try { fs.appendFileSync(logPath, JSON.stringify(logEntry2) + '\n'); } catch {}
-  // #endregion
 
   const response = await fetch(
     `https://rest.gohighlevel.com/v1/contacts/`,
@@ -78,25 +66,12 @@ export async function createGHLContact(
     }
   );
 
-  // #region agent log
-  const logEntry3 = {location:'gohighlevel.ts:70',message:'GHL API response received',data:{status:response.status,statusText:response.statusText,ok:response.ok},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'};
-  try { fs.appendFileSync(logPath, JSON.stringify(logEntry3) + '\n'); } catch {}
-  // #endregion
-
   if (!response.ok) {
     const error = await response.text();
-    // #region agent log
-    const logEntry4 = {location:'gohighlevel.ts:75',message:'GHL API error',data:{status:response.status,error},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'};
-    try { fs.appendFileSync(logPath, JSON.stringify(logEntry4) + '\n'); } catch {}
-    // #endregion
     throw new Error(`GoHighLevel API error: ${response.status} - ${error}`);
   }
 
   const data = await response.json();
-  // #region agent log
-  const logEntry5 = {location:'gohighlevel.ts:81',message:'GHL contact created',data:{contactId:data.contact?.id||data.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'};
-  try { fs.appendFileSync(logPath, JSON.stringify(logEntry5) + '\n'); } catch {}
-  // #endregion
   return { contactId: data.contact?.id || data.id };
 }
 

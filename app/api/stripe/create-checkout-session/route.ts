@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { searchIntakeSchema, sanitizeSearchIntake } from "@/lib/search-intake-validation";
 
 function getStripeClient() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -19,24 +20,25 @@ export async function POST(request: NextRequest) {
     const stripe = getStripeClient();
 
     const origin = request.nextUrl.origin;
-    let requestBody: any = null;
+    const requestBody = await request.json();
+    const parsed = searchIntakeSchema
+      .pick({ name: true, email: true, phone: true, vehicleLookingFor: true })
+      .safeParse(requestBody);
 
-    try {
-      requestBody = await request.json();
-    } catch {
-      // body is optional
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          error: "Invalid request",
+          fieldErrors: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
     }
 
-    const email =
-      typeof requestBody?.email === "string" ? requestBody.email.trim() : "";
-    const name =
-      typeof requestBody?.name === "string" ? requestBody.name.trim() : "";
-    const phone =
-      typeof requestBody?.phone === "string" ? requestBody.phone.trim() : "";
-    const vehicleLookingFor =
-      typeof requestBody?.vehicleLookingFor === "string"
-        ? requestBody.vehicleLookingFor.trim()
-        : "";
+    const { name, email, phone, vehicleLookingFor } = sanitizeSearchIntake({
+      ...parsed.data,
+      submittedAt: undefined,
+    });
 
     const priceId = process.env.STRIPE_SETUP_DEPOSIT_PRICE_ID;
 

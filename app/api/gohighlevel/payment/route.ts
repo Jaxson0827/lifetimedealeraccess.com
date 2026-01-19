@@ -3,7 +3,9 @@ import {
   submitToGHL,
   buildCustomFields,
   type GHLFormSubmission,
+  formatPhoneForGHL,
 } from "@/lib/gohighlevel";
+import { searchIntakeSchema } from "@/lib/search-intake-validation";
 
 function splitName(fullName: string | undefined): { firstName?: string; lastName?: string } {
   if (!fullName) return {};
@@ -46,16 +48,23 @@ export async function POST(request: NextRequest) {
       attributionFields,
     } = body;
 
+    const parsedIntake =
+      intakeData && typeof intakeData === "object"
+        ? searchIntakeSchema.partial().safeParse(intakeData)
+        : null;
+
+    const safeIntake = parsedIntake?.success ? parsedIntake.data : undefined;
+
     const name =
-      typeof intakeData?.name === "string"
-        ? intakeData.name
+      typeof safeIntake?.name === "string"
+        ? safeIntake.name
         : typeof intakeData?.fullName === "string"
           ? intakeData.fullName
           : undefined;
     const email =
-      typeof intakeData?.email === "string" ? intakeData.email : undefined;
+      typeof safeIntake?.email === "string" ? safeIntake.email : undefined;
     const phone =
-      typeof intakeData?.phone === "string" ? intakeData.phone : undefined;
+      typeof safeIntake?.phone === "string" ? safeIntake.phone : undefined;
     const { firstName, lastName } = splitName(name);
 
     // Build contact data
@@ -66,9 +75,9 @@ export async function POST(request: NextRequest) {
         ...(firstName ? { firstName } : {}),
         ...(lastName ? { lastName } : {}),
         ...(email ? { email } : {}),
-        ...(phone ? { phone } : {}),
+        ...(phone ? { phone: formatPhoneForGHL(phone) } : {}),
         customFields: buildCustomFields({
-          ...(intakeData || {}),
+          ...(safeIntake || {}),
           ...(attributionFields || {}),
           paymentAmount: amount,
           paymentMethod: paymentMethod || "unknown",
@@ -81,13 +90,18 @@ export async function POST(request: NextRequest) {
         title: `Payment Received - ${amount ? `$${amount}` : "Vehicle Inquiry"}`,
         pipelineId: pipelineId || undefined,
         stageId: stageId || undefined,
-        monetaryValue: amount ? parseFloat(amount) : undefined,
+        monetaryValue:
+          typeof amount === "number"
+            ? amount
+            : typeof amount === "string"
+              ? parseFloat(amount)
+              : undefined,
         customFields: {
           paymentStatus: "completed",
           transactionId: transactionId || "",
         },
       },
-      notes: buildPaymentNotes(amount, paymentMethod, transactionId, intakeData),
+      notes: buildPaymentNotes(amount, paymentMethod, transactionId, safeIntake),
     };
 
     // Submit to GoHighLevel
@@ -135,11 +149,14 @@ function buildPaymentNotes(
 
   if (intakeData) {
     sections.push("\n=== RELATED INTAKE DATA ===");
-    if (intakeData.dreamVehicle) {
-      sections.push(`Dream Vehicle: ${intakeData.dreamVehicle}`);
+    if (intakeData.vehicleLookingFor) {
+      sections.push(`Vehicle Looking For: ${intakeData.vehicleLookingFor}`);
     }
-    if (intakeData.priceRange) {
-      sections.push(`Price Range: ${intakeData.priceRange.replace(/_/g, " ")}`);
+    if (intakeData.phone) {
+      sections.push(`Phone: ${intakeData.phone}`);
+    }
+    if (intakeData.email) {
+      sections.push(`Email: ${intakeData.email}`);
     }
   }
 

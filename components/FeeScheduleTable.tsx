@@ -1,4 +1,4 @@
-import { FEE_SCHEDULE } from "@/lib/intake-types";
+import { FEE_SCHEDULE } from "@/lib/fee-schedule";
 
 interface FeeScheduleTableProps {
   highlightPriceRange?: string;

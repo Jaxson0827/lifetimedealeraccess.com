@@ -20,14 +20,7 @@ export default function MessagePage() {
 
   // Redirect to attribution gate if no attribution captured
   useEffect(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:22',message:'Contact page useEffect',data:{hasAttribution:hasAttribution(),pathname:typeof window!=='undefined'?window.location.pathname:'unknown'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    
     if (!hasAttribution()) {
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:25',message:'Redirecting - no attribution',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       router.replace("/get-started");
     }
   }, [router]);
@@ -46,24 +39,14 @@ export default function MessagePage() {
     setIsSubmitting(true);
 
     try {
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:42',message:'Form submission started',data:{hasFirstName:!!formData.firstName,hasLastName:!!formData.lastName,hasEmail:!!formData.email},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
-
       // Get attribution data
       const attributionFields = getAttributionFormFields();
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:50',message:'Attribution fields retrieved',data:{hasAttributionFields:Object.keys(attributionFields).length>0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
 
       // Submit to GoHighLevel via API route
       const requestBody = {
         ...formData,
         ...attributionFields,
       };
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:58',message:'Fetch request starting',data:{url:'/api/gohighlevel/contact',method:'POST',bodyKeys:Object.keys(requestBody)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
 
       const response = await fetch("/api/gohighlevel/contact", {
         method: "POST",
@@ -73,10 +56,6 @@ export default function MessagePage() {
         body: JSON.stringify(requestBody),
       });
 
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:68',message:'Fetch response received',data:{status:response.status,statusText:response.statusText,ok:response.ok},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
-
       if (!response.ok) {
         let errorData;
         try {
@@ -85,22 +64,13 @@ export default function MessagePage() {
           const text = await response.text();
           errorData = { error: text || "Failed to submit form" };
         }
-        // #region agent log
-        fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:75',message:'API error response',data:{status:response.status,errorData},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
         throw new Error(errorData.error || "Failed to submit form");
       }
 
       const responseData = await response.json();
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:82',message:'Form submission success',data:{responseData},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
 
       setIsSubmitted(true);
     } catch (error) {
-      // #region agent log
-      fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'contact/message/page.tsx:87',message:'Form submission error caught',data:{error:String(error),errorName:error instanceof Error?error.name:'unknown',errorMessage:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
       console.error("Error submitting form:", error);
       alert(
         "There was an error submitting your message. Please try again or contact us directly."

@@ -14,11 +14,6 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  // #region agent log
-  if (typeof window !== "undefined") {
-    fetch('http://127.0.0.1:7246/ingest/00f9ee75-8139-470e-a682-0e05d6173856',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:16',message:'Home component rendering',data:{isClient:true},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-  }
-  // #endregion
   const youWinItems = [
     {
       title: "True wholesale pricing",

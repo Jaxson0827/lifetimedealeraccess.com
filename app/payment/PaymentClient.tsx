@@ -9,10 +9,12 @@ import {
   type SearchIntakeData,
   saveSearchIntakeData,
 } from "@/lib/search-intake";
+import { searchIntakeSchema, sanitizeSearchIntake } from "@/lib/search-intake-validation";
 
 export default function PaymentClient() {
   const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const searchParams = useSearchParams();
   const [form, setForm] = useState<SearchIntakeData>({
     name: "",
@@ -20,28 +22,64 @@ export default function PaymentClient() {
     phone: "",
     vehicleLookingFor: "",
   });
+  const [touched, setTouched] = useState<{
+    name: boolean;
+    email: boolean;
+    phone: boolean;
+    vehicleLookingFor: boolean;
+    agreed: boolean;
+  }>({
+    name: false,
+    email: false,
+    phone: false,
+    vehicleLookingFor: false,
+    agreed: false,
+  });
 
   const wasCanceled = searchParams?.get("canceled") === "1";
 
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
-  const canSubmit =
-    agreed &&
-    !isSubmitting &&
-    form.name.trim().length > 1 &&
-    isEmailValid &&
-    form.phone.trim().length >= 7 &&
-    form.vehicleLookingFor.trim().length > 0;
+  const parsed = searchIntakeSchema.safeParse(form);
+  const fieldErrors = parsed.success ? {} : parsed.error.flatten().fieldErrors;
+  const canProceed = agreed && parsed.success && !isSubmitting;
+
+  const showError = (field: keyof typeof touched) =>
+    Boolean((touched[field] || submitAttempted) && (fieldErrors as any)?.[field]?.[0]);
+
+  const getError = (field: keyof typeof touched) =>
+    ((fieldErrors as any)?.[field]?.[0] as string | undefined) || "";
 
   const handlePayment = async () => {
-    if (!canSubmit) return;
+    setSubmitAttempted(true);
+
+    if (isSubmitting) return;
+
+    if (!agreed) {
+      setTouched((p) => ({ ...p, agreed: true }));
+      return;
+    }
+
+    if (!parsed.success) {
+      setTouched((p) => ({
+        ...p,
+        name: true,
+        email: true,
+        phone: true,
+        vehicleLookingFor: true,
+      }));
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
-      // Persist the form so the success page can log it.
-      saveSearchIntakeData({
+      const sanitized = sanitizeSearchIntake({
         ...form,
         submittedAt: new Date().toISOString(),
+      });
+
+      // Persist the form so the success page can log it.
+      saveSearchIntakeData({
+        ...sanitized,
       });
 
       // Create a Stripe Checkout Session and redirect the user
@@ -49,10 +87,10 @@ export default function PaymentClient() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          vehicleLookingFor: form.vehicleLookingFor,
+          name: sanitized.name,
+          email: sanitized.email,
+          phone: sanitized.phone,
+          vehicleLookingFor: sanitized.vehicleLookingFor,
         }),
       });
 
@@ -124,51 +162,94 @@ export default function PaymentClient() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="sm:col-span-2">
                       <label className="block text-gray-800 text-[14px] font-semibold mb-2">
-                        Name
+                        Name <span className="text-red-600">*</span>
                       </label>
                       <input
                         value={form.name}
                         onChange={(e) =>
                           setForm((p) => ({ ...p, name: e.target.value }))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        onBlur={() => setTouched((p) => ({ ...p, name: true }))}
+                        required
+                        aria-required="true"
+                        aria-invalid={showError("name")}
+                        aria-describedby={showError("name") ? "name-error" : undefined}
+                        className={`w-full px-4 py-3 border rounded-lg text-[15px] focus:ring-2 outline-none ${
+                          showError("name")
+                            ? "border-red-400 focus:ring-red-200 focus:border-red-500"
+                            : "border-gray-300 focus:ring-[#1F3E8E] focus:border-[#1F3E8E]"
+                        }`}
                         placeholder="Full name"
                         autoComplete="name"
                       />
+                      {showError("name") && (
+                        <p id="name-error" className="mt-2 text-[12px] text-red-600">
+                          {getError("name")}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-gray-800 text-[14px] font-semibold mb-2">
-                        Email
+                        Email <span className="text-red-600">*</span>
                       </label>
                       <input
                         value={form.email}
                         onChange={(e) =>
                           setForm((p) => ({ ...p, email: e.target.value }))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        onBlur={() => setTouched((p) => ({ ...p, email: true }))}
+                        required
+                        aria-required="true"
+                        aria-invalid={showError("email")}
+                        aria-describedby={showError("email") ? "email-error" : undefined}
+                        className={`w-full px-4 py-3 border rounded-lg text-[15px] focus:ring-2 outline-none ${
+                          showError("email")
+                            ? "border-red-400 focus:ring-red-200 focus:border-red-500"
+                            : "border-gray-300 focus:ring-[#1F3E8E] focus:border-[#1F3E8E]"
+                        }`}
                         placeholder="you@email.com"
                         autoComplete="email"
                         inputMode="email"
                       />
+                      {showError("email") && (
+                        <p id="email-error" className="mt-2 text-[12px] text-red-600">
+                          {getError("email")}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-gray-800 text-[14px] font-semibold mb-2">
-                        Phone
+                        Phone <span className="text-red-600">*</span>
                       </label>
                       <input
                         value={form.phone}
                         onChange={(e) =>
                           setForm((p) => ({ ...p, phone: e.target.value }))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none"
+                        onBlur={() => setTouched((p) => ({ ...p, phone: true }))}
+                        required
+                        aria-required="true"
+                        aria-invalid={showError("phone")}
+                        aria-describedby={showError("phone") ? "phone-error" : undefined}
+                        className={`w-full px-4 py-3 border rounded-lg text-[15px] focus:ring-2 outline-none ${
+                          showError("phone")
+                            ? "border-red-400 focus:ring-red-200 focus:border-red-500"
+                            : "border-gray-300 focus:ring-[#1F3E8E] focus:border-[#1F3E8E]"
+                        }`}
                         placeholder="(555) 555-5555"
                         autoComplete="tel"
                         inputMode="tel"
                       />
+                      {showError("phone") && (
+                        <p id="phone-error" className="mt-2 text-[12px] text-red-600">
+                          {getError("phone")}
+                        </p>
+                      )}
                     </div>
                     <div className="sm:col-span-2">
                       <label className="block text-gray-800 text-[14px] font-semibold mb-2">
-                        What vehicle are you looking for?
+                        What vehicle are you looking for?{" "}
+                        <span className="text-red-600">*</span>
                       </label>
                       <textarea
                         value={form.vehicleLookingFor}
@@ -178,10 +259,33 @@ export default function PaymentClient() {
                             vehicleLookingFor: e.target.value,
                           }))
                         }
+                        onBlur={() =>
+                          setTouched((p) => ({ ...p, vehicleLookingFor: true }))
+                        }
                         rows={4}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-[#1F3E8E] focus:border-[#1F3E8E] outline-none resize-none"
+                        required
+                        aria-required="true"
+                        aria-invalid={showError("vehicleLookingFor")}
+                        aria-describedby={
+                          showError("vehicleLookingFor")
+                            ? "vehicleLookingFor-error"
+                            : undefined
+                        }
+                        className={`w-full px-4 py-3 border rounded-lg text-[15px] focus:ring-2 outline-none resize-none ${
+                          showError("vehicleLookingFor")
+                            ? "border-red-400 focus:ring-red-200 focus:border-red-500"
+                            : "border-gray-300 focus:ring-[#1F3E8E] focus:border-[#1F3E8E]"
+                        }`}
                         placeholder="Tell us the basics (Year, Make, Model, or Budget). Your consultant will call you to finalize the exact specs once your search is activated."
                       />
+                      {showError("vehicleLookingFor") && (
+                        <p
+                          id="vehicleLookingFor-error"
+                          className="mt-2 text-[12px] text-red-600"
+                        >
+                          {getError("vehicleLookingFor")}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -269,7 +373,10 @@ export default function PaymentClient() {
                         <input
                           type="checkbox"
                           checked={agreed}
-                          onChange={(e) => setAgreed(e.target.checked)}
+                          onChange={(e) => {
+                            setAgreed(e.target.checked);
+                            setTouched((p) => ({ ...p, agreed: true }));
+                          }}
                           className="mt-1 w-5 h-5 text-[#1F3E8E] border-gray-300 rounded focus:ring-[#1F3E8E] cursor-pointer"
                         />
                         <span className="text-gray-700 text-[14px] group-hover:text-gray-900 transition-colors">
@@ -277,16 +384,22 @@ export default function PaymentClient() {
                           above.
                         </span>
                       </label>
+                      {submitAttempted && !agreed && (
+                        <p className="mt-2 text-[12px] text-red-600">
+                          Please confirm the agreement to continue.
+                        </p>
+                      )}
                     </div>
 
                     {/* Payment Button */}
                     <button
                       onClick={handlePayment}
-                      disabled={!canSubmit}
+                      disabled={isSubmitting}
+                      aria-disabled={!canProceed}
                       className={`mt-6 w-full py-4 rounded-lg text-[16px] font-semibold transition-all duration-200 ${
-                        canSubmit
+                        canProceed
                           ? "bg-cta-red text-white hover:bg-red-700 cursor-pointer shadow-lg"
-                          : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          : "bg-gray-200 text-gray-600 cursor-pointer"
                       }`}
                     >
                       {isSubmitting ? (
@@ -331,12 +444,7 @@ export default function PaymentClient() {
                       <span>Secure card payment processing</span>
                     </div>
 
-                    {!isEmailValid && form.email.trim().length > 0 && (
-                      <p className="mt-4 text-[12px] text-red-600 text-center">
-                        Please enter a valid email address.
-                      </p>
-                    )}
-                    {!canSubmit && (
+                    {!canProceed && (
                       <p className="mt-3 text-[12px] text-gray-500 text-center">
                         Complete the form and check the agreement box to
                         continue.
