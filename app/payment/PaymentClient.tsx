@@ -423,7 +423,7 @@ export default function PaymentClient() {
                           Processing...
                         </span>
                       ) : (
-                        "Pay $100 & Start My Search"
+                        "Pay $100 Setup Deposit & Begin Search"
                       )}
                     </button>
 

@@ -49,16 +49,16 @@ export default function ChoiceHubPage() {
               </div>
               <div className="px-8 py-6">
                 <h2 className="text-[#1F3E8E] text-[22px] lg:text-[24px] font-bold mb-2">
-                  Start Your Search (1 Page)
+                  Start Your Vehicle Search (Quick Intake)
                 </h2>
                 <p className="text-gray-600 text-[15px] lg:text-[16px] mb-5">
-                  A clean, one-page setup: share the basics, review the fee schedule, and secure your $100 setup deposit to activate your search.
+                  Complete a short intake, review the fee schedule, and submit the $100 setup deposit to activate your search.
                 </p>
                 <a
                   href="/payment"
                   className="inline-block w-full text-center bg-cta-red text-white text-[16px] font-semibold py-4 rounded-lg hover:bg-red-700 transition-colors duration-200"
                 >
-                  Pay $100 & Start My Search
+                  Pay $100 Setup Deposit & Begin Search
                 </a>
               </div>
             </div>
