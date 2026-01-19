@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Image from "next/image";
 
 // Note: Metadata must be in a separate server component for client components
 // For SEO, consider refactoring to use generateMetadata or a server component wrapper
@@ -89,21 +88,215 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Who We Are Section */}
+      {/* About Us Section */}
       <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-[1200px] mx-auto px-8 lg:px-16">
-          <h2 className="text-navy-dark text-[36px] lg:text-[44px] font-bold mb-6">
-            Who we are
+          <h2 className="text-navy-dark text-[36px] lg:text-[44px] font-bold mb-2">
+            About Us
           </h2>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-8 mb-3">
+            A Better Way to Buy a Car
+          </h3>
           <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
             <p>
-              <strong>Lifetime Auto</strong> is a buyer representation service that gives consumers access to true wholesale pricing through dealer-only auctions nationwide. We represent you as your buying consultant — not against you. Flat fee. No commissions. No games.
+              At <strong>Lifetime Dealer Access</strong>, we believe buying a car
+              shouldn&apos;t feel stressful, confusing, or stacked against you.
             </p>
             <p>
-              Founded with a mission to level the playing field, Lifetime Auto empowers buyers with the same wholesale auction access that dealers have. We use institutional-grade technology to source vehicles from hundreds of dealer-only auctions, ensuring you pay what dealers pay — not retail markups.
+              For too long, the traditional dealership model has relied on
+              pressure, hidden markups, and misaligned incentives. We knew there
+              had to be a better way — one built on transparency, advocacy, and
+              long-term value for the buyer.
             </p>
             <p>
-              Whether you're buying a personal vehicle, building a Turo investment portfolio, or need a reliable car for gig work, we provide dedicated buyer representation with total transparency at every step.
+              <strong>So we built it.</strong>
+            </p>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            What We Do
+          </h3>
+          <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
+            <p>
+              Lifetime Dealer Access is a wholesale car-buying consultant
+              service designed to put the customer first.
+            </p>
+            <p>
+              Instead of selling cars off a lot, we represent you — the buyer.
+            </p>
+            <div>
+              <p className="font-semibold text-navy-dark mb-3">
+                Our consultants help clients:
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-navy-dark/50 mt-1">•</span>
+                  <span>Access dealer-only auctions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-navy-dark/50 mt-1">•</span>
+                  <span>Buy vehicles at true wholesale pricing</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-navy-dark/50 mt-1">•</span>
+                  <span>Avoid inflated retail markups</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-navy-dark/50 mt-1">•</span>
+                  <span>Make confident, informed decisions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-navy-dark/50 mt-1">•</span>
+                  <span>Protect their investment long after the purchase</span>
+                </li>
+              </ul>
+            </div>
+            <p>
+              We work on a simple, transparent <strong>flat-fee</strong> model,
+              not commissions based on how much you spend.
+            </p>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            How We&apos;re Different
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4 lg:gap-6 mt-6">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 lg:p-6">
+              <p className="text-navy-dark font-bold mb-2">✔ No dealership pressure</p>
+              <p className="text-gray-700 leading-relaxed">
+                We don&apos;t sell cars — we help you buy them.
+              </p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 lg:p-6">
+              <p className="text-navy-dark font-bold mb-2">✔ Wholesale access</p>
+              <p className="text-gray-700 leading-relaxed">
+                You gain access to the same auctions dealers use every day.
+              </p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 lg:p-6">
+              <p className="text-navy-dark font-bold mb-2">✔ Fixed, transparent pricing</p>
+              <p className="text-gray-700 leading-relaxed">
+                One flat consulting fee. No games. No surprises.
+              </p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 lg:p-6">
+              <p className="text-navy-dark font-bold mb-2">✔ Built-in protection</p>
+              <p className="text-gray-700 leading-relaxed">
+                Every qualifying vehicle includes a Lifetime Warranty, covering
+                major mechanical systems for as long as you own the car — with
+                no mileage limit.
+              </p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 lg:p-6 md:col-span-2">
+              <p className="text-navy-dark font-bold mb-2">✔ Nationwide support</p>
+              <p className="text-gray-700 leading-relaxed">
+                Repairs can be completed at any authorized repair facility in
+                the U.S. or Canada — not limited to a specific dealership.
+              </p>
+            </div>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            Our Lifetime Warranty
+          </h3>
+          <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
+            <p>
+              We believe real value doesn&apos;t stop when you drive off the lot.
+            </p>
+            <p>
+              That&apos;s why we include a Lifetime Warranty on qualifying vehicles
+              — protecting major mechanical systems for the entire time you own
+              your car.
+            </p>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>No mileage caps</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>No dealership lock-in</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Nationwide repair coverage</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Designed to reduce long-term ownership costs</span>
+              </li>
+            </ul>
+            <p>It&apos;s peace of mind that lasts long after the purchase.</p>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            Our Philosophy
+          </h3>
+          <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
+            <p>We operate on one simple principle:</p>
+            <p className="text-navy-dark font-semibold">
+              If it&apos;s not a win for the customer, it&apos;s not a deal.
+            </p>
+            <p>
+              Our goal isn&apos;t to sell you a car — it&apos;s to help you buy the
+              right car, at the right price, with protection you can trust.
+            </p>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            Who We Serve
+          </h3>
+          <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
+            <p>We work with:</p>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Families looking to stretch their budget</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Professionals who value transparency</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Buyers tired of traditional dealership experiences</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>
+                  Anyone who wants clarity, control, and confidence in the
+                  car-buying process
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <h3 className="text-navy-dark text-[26px] lg:text-[32px] font-semibold mt-10 mb-3">
+            A Smarter Way Forward
+          </h3>
+          <div className="space-y-6 text-[16px] lg:text-[18px] leading-relaxed text-gray-700">
+            <p>Lifetime Dealer Access exists to make car buying:</p>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Simpler</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Fairer</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>More transparent</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-navy-dark/50 mt-1">•</span>
+                <span>Less stressful</span>
+              </li>
+            </ul>
+            <p className="text-navy-dark font-semibold">
+              And ultimately — better.
             </p>
           </div>
         </div>
