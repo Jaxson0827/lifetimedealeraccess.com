@@ -67,10 +67,9 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-white text-[16px] font-semibold mb-4">Connect</h3>
-            {/* TODO: Client to provide actual social media URLs */}
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/share/1AekSUvtme/"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Facebook"
               >
@@ -79,21 +78,40 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://x.com/lifetimeauto_"
                 className="text-gray-400 hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors"
-                aria-label="Twitter"
+                aria-label="X"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/lifetimeautosales?igsh=MWQ5cGFvcXRlaHNyYQ=="
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label="Instagram"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 7.2A4.8 4.8 0 1 0 16.8 12 4.81 4.81 0 0 0 12 7.2zm0 7.9A3.1 3.1 0 1 1 15.1 12 3.11 3.11 0 0 1 12 15.1zm6.12-7.98a1.12 1.12 0 1 1-1.12-1.12 1.12 1.12 0 0 1 1.12 1.12z" />
+                  <path d="M20.4 6.2a4.6 4.6 0 0 0-2.62-2.62C16.2 3 12 3 12 3s-4.2 0-5.78.58A4.6 4.6 0 0 0 3.6 6.2C3 7.78 3 12 3 12s0 4.22.6 5.8a4.6 4.6 0 0 0 2.62 2.62C7.8 21 12 21 12 21s4.2 0 5.78-.58a4.6 4.6 0 0 0 2.62-2.62C21 16.22 21 12 21 12s0-4.22-.6-5.8zM12 17.3A5.3 5.3 0 1 1 17.3 12 5.31 5.31 0 0 1 12 17.3z" />
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com/@lifetimeauto?si=bj83qUO_Yw0wCrro"
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label="YouTube"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1 31.3 31.3 0 0 0 .5-5.8 31.3 31.3 0 0 0-.5-5.8zM9.6 15.5v-7l6.1 3.5z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.tiktok.com/@lifetimeauto?_r=1&_t=ZT-938H0IdcV0x"
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label="TikTok"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M16.5 3.2c.5 1.8 2 3.2 3.9 3.5v3a7.4 7.4 0 0 1-3.9-1.2v6.6a5.6 5.6 0 1 1-5.6-5.6c.2 0 .5 0 .7.1v3.1a2.5 2.5 0 1 0 1.8 2.4V2.9h3.1z" />
                 </svg>
               </a>
             </div>
