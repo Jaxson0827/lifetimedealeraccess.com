@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_EMAIL, SITE_PHONE_DISPLAY, SITE_PHONE_TEL, SOCIAL_LINKS } from "@/lib/site-contact";
 
 export default function Footer() {
   return (
@@ -69,7 +70,9 @@ export default function Footer() {
             <h3 className="text-white text-[16px] font-semibold mb-4">Connect</h3>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/share/1AekSUvtme/"
+                href={SOCIAL_LINKS.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Facebook"
               >
@@ -78,7 +81,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://x.com/lifetimeauto_"
+                href={SOCIAL_LINKS.x}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="X"
               >
@@ -87,7 +92,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/lifetimeautosales?igsh=MWQ5cGFvcXRlaHNyYQ=="
+                href={SOCIAL_LINKS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Instagram"
               >
@@ -97,7 +104,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://youtube.com/@lifetimeauto?si=bj83qUO_Yw0wCrro"
+                href={SOCIAL_LINKS.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="YouTube"
               >
@@ -106,13 +115,30 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.tiktok.com/@lifetimeauto?_r=1&_t=ZT-938H0IdcV0x"
+                href={SOCIAL_LINKS.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="TikTok"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M16.5 3.2c.5 1.8 2 3.2 3.9 3.5v3a7.4 7.4 0 0 1-3.9-1.2v6.6a5.6 5.6 0 1 1-5.6-5.6c.2 0 .5 0 .7.1v3.1a2.5 2.5 0 1 0 1.8 2.4V2.9h3.1z" />
                 </svg>
+              </a>
+            </div>
+
+            <div className="mt-5 space-y-2">
+              <a
+                href={`tel:${SITE_PHONE_TEL}`}
+                className="block text-gray-400 text-[14px] hover:text-white transition-colors"
+              >
+                {SITE_PHONE_DISPLAY}
+              </a>
+              <a
+                href={`mailto:${SITE_EMAIL}`}
+                className="block text-gray-400 text-[14px] hover:text-white transition-colors break-all"
+              >
+                {SITE_EMAIL}
               </a>
             </div>
           </div>

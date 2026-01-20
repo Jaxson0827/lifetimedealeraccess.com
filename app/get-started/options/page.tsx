@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { hasAttribution, getAttributionParams } from "@/lib/attribution";
+import { CALENDLY_30_MIN_URL, SITE_EMAIL, SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "@/lib/site-contact";
 
 export default function ChoiceHubPage() {
   const router = useRouter();
@@ -17,8 +18,7 @@ export default function ChoiceHubPage() {
   }, [router]);
 
   // Build Calendly URL with attribution params
-  // TODO: CLIENT ACTION REQUIRED - Replace with actual Calendly link
-  const calendlyBaseUrl = "https://calendly.com/your-calendly-link";
+  const calendlyBaseUrl = CALENDLY_30_MIN_URL;
   const attributionParams = getAttributionParams();
   const calendlyUrl = `${calendlyBaseUrl}?${attributionParams.toString()}`;
 
@@ -106,22 +106,22 @@ export default function ChoiceHubPage() {
           <div className="mt-10 text-center">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-white/50 text-[14px]">
               <a 
-                href="tel:+18005551234" 
+                href={`tel:${SITE_PHONE_TEL}`}
                 className="flex items-center gap-2 hover:text-white/70 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                (800) 555-1234
+                {SITE_PHONE_DISPLAY}
               </a>
               <a 
-                href="mailto:support@lifetimeauto.com" 
+                href={`mailto:${SITE_EMAIL}`}
                 className="flex items-center gap-2 hover:text-white/70 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                support@lifetimeauto.com
+                {SITE_EMAIL}
               </a>
             </div>
           </div>

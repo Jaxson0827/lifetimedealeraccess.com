@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getAttributionFormFields } from "@/lib/attribution";
 import { loadSearchIntakeData } from "@/lib/search-intake";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "@/lib/site-contact";
 
 type Status =
   | "checking"
@@ -188,10 +189,10 @@ export default function PaymentSuccessClient() {
                         feel free to reply to your confirmation email or call us
                         at{" "}
                         <a
-                          href="tel:+14803325154"
+                          href={`tel:${SITE_PHONE_TEL}`}
                           className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
                         >
-                          480.332.5154
+                          {SITE_PHONE_DISPLAY}
                         </a>
                         .
                       </p>

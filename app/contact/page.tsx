@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Header from "@/components/Header";
 import Link from "next/link";
+import { SITE_EMAIL, SITE_PHONE_DISPLAY, SITE_PHONE_TEL, SOCIAL_LINKS } from "@/lib/site-contact";
 
 export const metadata: Metadata = {
   title: "Contact Us | Lifetime Auto Sales",
@@ -54,7 +55,7 @@ export default function ContactPage() {
                 </p>
 
                 <a
-                  href="#chat"
+                  href="/contact/message"
                   className="inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
                 >
                   Chat with us
@@ -101,10 +102,10 @@ export default function ContactPage() {
                 </p>
 
                 <a
-                  href="tel:+18005551234"
+                  href={`tel:${SITE_PHONE_TEL}`}
                   className="inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
                 >
-                  (800) 555-1234
+                  {SITE_PHONE_DISPLAY}
                 </a>
               </div>
             </div>
@@ -156,7 +157,9 @@ export default function ContactPage() {
                 <div className="flex gap-4">
                   {/* Facebook */}
                   <a
-                    href="#"
+                    href={SOCIAL_LINKS.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-[#e8f4fc] rounded-full flex items-center justify-center text-[#1F3E8E] hover:bg-[#1F3E8E] hover:text-white transition-colors duration-200"
                     aria-label="Facebook"
                   >
@@ -167,7 +170,9 @@ export default function ContactPage() {
 
                   {/* Instagram */}
                   <a
-                    href="#"
+                    href={SOCIAL_LINKS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-[#e8f4fc] rounded-full flex items-center justify-center text-[#1F3E8E] hover:bg-[#1F3E8E] hover:text-white transition-colors duration-200"
                     aria-label="Instagram"
                   >
@@ -178,7 +183,9 @@ export default function ContactPage() {
 
                   {/* YouTube */}
                   <a
-                    href="#"
+                    href={SOCIAL_LINKS.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-[#e8f4fc] rounded-full flex items-center justify-center text-[#1F3E8E] hover:bg-[#1F3E8E] hover:text-white transition-colors duration-200"
                     aria-label="YouTube"
                   >
@@ -189,7 +196,9 @@ export default function ContactPage() {
 
                   {/* X (Twitter) */}
                   <a
-                    href="#"
+                    href={SOCIAL_LINKS.x}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-[#e8f4fc] rounded-full flex items-center justify-center text-[#1F3E8E] hover:bg-[#1F3E8E] hover:text-white transition-colors duration-200"
                     aria-label="X (Twitter)"
                   >
@@ -264,10 +273,10 @@ export default function ContactPage() {
                 Prefer email? Reach us at:
               </p>
               <a
-                href="mailto:info@lifetimeautosales.com"
+                href={`mailto:${SITE_EMAIL}`}
                 className="text-[#1F3E8E] text-[18px] font-semibold hover:underline underline-offset-4"
               >
-                info@lifetimeautosales.com
+                {SITE_EMAIL}
               </a>
             </div>
           </div>

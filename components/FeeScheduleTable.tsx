@@ -31,48 +31,109 @@ export default function FeeScheduleTable({ highlightPriceRange }: FeeScheduleTab
 
   return (
     <div className="rounded-xl border border-gray-200 overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px]">
-        <thead>
-          <tr className="bg-[#1F3E8E] text-white">
-            <th className="px-6 py-4 text-left text-[14px] font-semibold">
-              Final OTD Vehicle Price
-            </th>
-            <th className="px-6 py-4 text-right text-[14px] font-semibold">
-              Consultant Fee
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+      {/* Mobile (stacked) */}
+      <div className="sm:hidden">
+        <div className="bg-[#1F3E8E] text-white px-4 py-3">
+          <p className="text-[14px] font-semibold">Consultant Fee Schedule</p>
+          <p className="text-[12px] text-white/80">Final OTD vehicle price → fee</p>
+        </div>
+
+        <div className="divide-y divide-gray-200">
           {FEE_SCHEDULE.map((row, index) => {
             const isHighlighted = index === highlightIndex;
-            
+
             return (
-              <tr
+              <div
                 key={row.label}
-                className={`
-                  border-t border-gray-200 transition-colors
-                  ${isHighlighted 
-                    ? "bg-gold/10 border-l-4 border-l-gold" 
-                    : index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  }
-                `}
+                className={`px-4 py-3 ${
+                  isHighlighted ? "bg-gold/10 border-l-4 border-l-gold" : "bg-white"
+                }`}
               >
-                <td className={`px-6 py-4 text-[15px] ${isHighlighted ? "font-semibold text-[#1F3E8E]" : "text-gray-700"}`}>
-                  {row.label}
-                  {isHighlighted && (
-                    <span className="ml-2 text-[12px] text-gold font-medium">
-                      ← Your range
-                    </span>
-                  )}
-                </td>
-                <td className={`px-6 py-4 text-right text-[15px] ${isHighlighted ? "font-bold text-[#1F3E8E]" : "text-gray-900 font-medium"}`}>
-                  ${row.fee.toLocaleString()}
-                </td>
-              </tr>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p
+                      className={`text-[14px] leading-snug whitespace-normal ${
+                        isHighlighted ? "font-semibold text-[#1F3E8E]" : "text-gray-700"
+                      }`}
+                    >
+                      {row.label}
+                      {isHighlighted && (
+                        <span className="ml-2 text-[12px] text-gold font-medium">
+                          ← Your range
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <p
+                    className={`text-[14px] text-right whitespace-nowrap ${
+                      isHighlighted ? "font-bold text-[#1F3E8E]" : "text-gray-900 font-semibold"
+                    }`}
+                  >
+                    ${row.fee.toLocaleString()}
+                  </p>
+                </div>
+              </div>
             );
           })}
-        </tbody>
+        </div>
+      </div>
+
+      {/* Desktop/tablet */}
+      <div className="hidden sm:block">
+        <table className="w-full table-fixed">
+          <thead>
+            <tr className="bg-[#1F3E8E] text-white">
+              <th className="w-2/3 px-4 sm:px-6 py-3.5 text-left text-[13px] sm:text-[14px] font-semibold">
+                Final OTD Vehicle Price
+              </th>
+              <th className="w-1/3 px-4 sm:px-6 py-3.5 text-right text-[13px] sm:text-[14px] font-semibold whitespace-nowrap">
+                Consultant Fee
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {FEE_SCHEDULE.map((row, index) => {
+              const isHighlighted = index === highlightIndex;
+
+              return (
+                <tr
+                  key={row.label}
+                  className={`
+                    border-t border-gray-200 transition-colors
+                    ${
+                      isHighlighted
+                        ? "bg-gold/10 border-l-4 border-l-gold"
+                        : index % 2 === 0
+                          ? "bg-white"
+                          : "bg-gray-50"
+                    }
+                  `}
+                >
+                  <td
+                    className={`px-4 sm:px-6 py-3.5 text-[13px] sm:text-[14px] whitespace-normal break-words ${
+                      isHighlighted ? "font-semibold text-[#1F3E8E]" : "text-gray-700"
+                    }`}
+                  >
+                    {row.label}
+                    {isHighlighted && (
+                      <span className="ml-2 text-[12px] text-gold font-medium">
+                        ← Your range
+                      </span>
+                    )}
+                  </td>
+                  <td
+                    className={`px-4 sm:px-6 py-3.5 text-right text-[13px] sm:text-[14px] whitespace-nowrap ${
+                      isHighlighted
+                        ? "font-bold text-[#1F3E8E]"
+                        : "text-gray-900 font-medium"
+                    }`}
+                  >
+                    ${row.fee.toLocaleString()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>
