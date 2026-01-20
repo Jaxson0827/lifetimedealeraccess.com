@@ -22,7 +22,7 @@ Marketing site + lead capture + payment setup deposit flow for Lifetime Auto Sal
 
 ### Prerequisites
 
-- Node.js 18+ (recommended)
+- Node.js 20+ (recommended)
 - npm (ships with Node)
 
 ### Setup
@@ -88,6 +88,10 @@ Create `.env.local` for local development (do not commit it). Use `.env.example`
 - **Stripe**
   - `STRIPE_SECRET_KEY`: Stripe secret key (`sk_test_...` or `sk_live_...`)
 
+- **Email (Resend)**
+  - `RESEND_API_KEY`: Resend API key
+  - `EMAIL_FROM`: Verified Resend sender (e.g., `Lifetime Auto <no-reply@yourdomain.com>`)
+
 - **GoHighLevel**
   - `GOHIGHLEVEL_WEBHOOK_URL`: GoHighLevel/LeadConnector webhook trigger URL used by the site to log events
 
@@ -99,6 +103,9 @@ Create `.env.local` for local development (do not commit it). Use `.env.example`
 - **GoHighLevel**
   - `GOHIGHLEVEL_PIPELINE_ID`: Pipeline ID (for opportunities)
   - `GOHIGHLEVEL_STAGE_ID`: Stage ID (for opportunities)
+
+- **Email (Resend)**
+  - `CONTACT_TO_EMAIL`: Overrides the destination for contact messages (defaults to `Kevin.lifetimeauto@gmail.com`)
 
 ### Where contact info lives
 

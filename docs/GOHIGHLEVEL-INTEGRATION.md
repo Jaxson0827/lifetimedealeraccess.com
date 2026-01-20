@@ -5,9 +5,10 @@ This document explains how to integrate your Lifetime Auto Sales website with Go
 ## Overview
 
 The integration automatically sends form submissions to GoHighLevel:
-- **Contact Form** (`/contact/message`) - Creates contacts and notes
 - **Intake Form** (`/intake`) - Creates contacts with detailed vehicle preferences and opportunities
 - **Payment Form** (`/payment`) - Creates contacts with payment information and opportunities
+
+> Note: The **contact message form** (`/contact/message`) is configured to send an email to the business inbox (via Resend) rather than posting to GoHighLevel.
 
 ## Setup Instructions
 
@@ -51,8 +52,8 @@ Create a workflow (or automation) in GoHighLevel that starts with a **Webhook Tr
    ```
 
 2. Submit a test form:
-   - Go to `/contact/message` and submit the contact form
-   - Check your GoHighLevel account to verify the contact was created
+   - Go to `/payment` and complete a test payment (in Stripe test mode)
+   - Check your GoHighLevel account to verify the payment/opportunity was created
 
 3. Check the browser console and server logs for any errors
 
@@ -60,13 +61,11 @@ Create a workflow (or automation) in GoHighLevel that starts with a **Webhook Tr
 
 ### Contact Form Integration
 
-When a user submits the contact form (`/contact/message`):
-- Creates a new contact in GoHighLevel with:
-  - Name, email, phone
-  - Source: "Website Contact Form"
-  - Tags: "Contact Form", "Website"
-  - Custom fields with attribution data
-- Adds a note with the message content
+The `/contact/message` page sends an email via the site’s email endpoint (`/api/contact/email`). This is intended to notify the business inbox directly.
+
+If you want contact messages to also be logged to GoHighLevel, you can add a GoHighLevel webhook call from:
+- `app/contact/message/page.tsx`
+- or implement it server-side in `app/api/contact/email/route.ts`
 
 ### Intake Form Integration
 
@@ -110,6 +109,8 @@ All form data is stored in GoHighLevel custom fields. The field names match the 
 ## Troubleshooting
 
 ### Contacts Not Appearing in GoHighLevel
+
+This site currently posts **intake** and **payment** events to GoHighLevel. If those aren’t appearing:
 
 1. **Check Webhook URL**: Verify `GOHIGHLEVEL_WEBHOOK_URL` is correct
 2. **Check Workflow Trigger**: Ensure the workflow is enabled and the webhook trigger is the entry point

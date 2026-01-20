@@ -44,3 +44,22 @@ GOHIGHLEVEL_PIPELINE_ID=
 GOHIGHLEVEL_STAGE_ID=
 ```
 
+## Email (Resend) (to deliver contact messages)
+
+Required:
+
+- `RESEND_API_KEY`
+- `EMAIL_FROM` (must be a verified sender in Resend; can include a display name)
+
+Optional:
+
+- `CONTACT_TO_EMAIL` (defaults to `Kevin.lifetimeauto@gmail.com`)
+
+Example:
+
+```env
+RESEND_API_KEY=re_REPLACE_ME
+EMAIL_FROM=Lifetime Auto <no-reply@lifetimedealeraccess.com>
+CONTACT_TO_EMAIL=Kevin.lifetimeauto@gmail.com
+```
+

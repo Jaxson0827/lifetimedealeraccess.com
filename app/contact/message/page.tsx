@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { hasAttribution, getAttributionFormFields } from "@/lib/attribution";
+import { getAttributionFormFields } from "@/lib/attribution";
 
 export default function MessagePage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,13 +15,6 @@ export default function MessagePage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // Redirect to attribution gate if no attribution captured
-  useEffect(() => {
-    if (!hasAttribution()) {
-      router.replace("/get-started");
-    }
-  }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -42,13 +33,13 @@ export default function MessagePage() {
       // Get attribution data
       const attributionFields = getAttributionFormFields();
 
-      // Submit to GoHighLevel via API route
+      // Submit to email (server API route)
       const requestBody = {
         ...formData,
         ...attributionFields,
       };
 
-      const response = await fetch("/api/gohighlevel/contact", {
+      const response = await fetch("/api/contact/email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,8 +57,6 @@ export default function MessagePage() {
         }
         throw new Error(errorData.error || "Failed to submit form");
       }
-
-      const responseData = await response.json();
 
       setIsSubmitted(true);
     } catch (error) {
