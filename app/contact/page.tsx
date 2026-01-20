@@ -29,7 +29,7 @@ export default function ContactPage() {
             {/* Main Contact Cards */}
             <div className="grid md:grid-cols-2 gap-6 mb-12">
               {/* Chat Card */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col h-full">
                 {/* Icon */}
                 <div className="mb-6">
                   <svg
@@ -47,16 +47,18 @@ export default function ContactPage() {
                   </svg>
                 </div>
 
-                <h2 className="text-[#1F3E8E] text-[18px] lg:text-[20px] font-bold mb-3">
-                  Have questions? Just ask.
-                </h2>
-                <p className="text-[#4a5568] text-[15px] lg:text-[16px] mb-6">
-                  You can chat with us anytime for quick answers about wholesale buying.
-                </p>
+                <div className="flex-1">
+                  <h2 className="text-[#1F3E8E] text-[18px] lg:text-[20px] font-bold mb-3">
+                    Have questions? Just ask.
+                  </h2>
+                  <p className="text-[#4a5568] text-[15px] lg:text-[16px]">
+                    You can chat with us anytime for quick answers about wholesale buying.
+                  </p>
+                </div>
 
                 <a
                   href="/contact/message"
-                  className="inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
+                  className="mt-6 inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
                 >
                   Chat with us
                   <svg
@@ -76,7 +78,7 @@ export default function ContactPage() {
               </div>
 
               {/* Phone Card */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col h-full">
                 {/* Icon */}
                 <div className="mb-6">
                   <svg
@@ -94,16 +96,18 @@ export default function ContactPage() {
                   </svg>
                 </div>
 
-                <h2 className="text-[#1F3E8E] text-[18px] lg:text-[20px] font-bold mb-3">
-                  Want to talk to someone over the phone?
-                </h2>
-                <p className="text-[#4a5568] text-[15px] lg:text-[16px] mb-6">
-                  Give our buying consultant team a call:
-                </p>
+                <div className="flex-1">
+                  <h2 className="text-[#1F3E8E] text-[18px] lg:text-[20px] font-bold mb-3">
+                    Want to talk to someone over the phone?
+                  </h2>
+                  <p className="text-[#4a5568] text-[15px] lg:text-[16px]">
+                    Give our buying consultant team a call:
+                  </p>
+                </div>
 
                 <a
                   href={`tel:${SITE_PHONE_TEL}`}
-                  className="inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
+                  className="mt-6 inline-flex items-center gap-2 bg-[#1F3E8E] text-white text-[15px] font-semibold px-6 py-3.5 rounded-full hover:bg-[#152d68] transition-colors duration-200"
                 >
                   {SITE_PHONE_DISPLAY}
                 </a>

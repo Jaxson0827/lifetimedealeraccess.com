@@ -1,0 +1,47 @@
+LIFETIME AUTO SALES — SOURCE CODE HANDOFF
+
+Date of delivery: 2026-01-20
+Project version: 0.1.0 (see package.json)
+Repository: lifetimedealeraccess.com
+
+---
+
+Statement of ownership transfer
+
+This package contains the complete source code for the Project as of v0.1.0. All rights, title, and interest are transferred to Client upon delivery, except for any third‑party materials and services which remain subject to their respective licenses/terms (e.g., Stripe, GoHighLevel, Vercel, domain registrar).
+
+---
+
+What is included
+
+- Complete source code for the website (Next.js 14 app)
+- UI components, pages, and assets in /public
+- Server-side API routes for:
+  - Stripe Checkout session creation and confirmation
+  - GoHighLevel webhook submissions for contact/intake/payment
+- Documentation in /docs and README.md
+- Environment variable template: .env.example
+
+---
+
+What is excluded (client responsibilities)
+
+- Stripe account ownership, configuration, and API keys
+- GoHighLevel account ownership, workflow/webhook trigger setup, and IDs
+- Hosting provider setup (Vercel or other) and environment variable configuration
+- Domain/DNS ownership and configuration (including email deliverability)
+- Ongoing maintenance, enhancements, analytics, SEO, and support unless separately agreed
+
+---
+
+Deployment notes
+
+- Configure the required environment variables (see .env.example and README.md).
+- Recommended hosting is Vercel (Next.js native). Any compatible Node hosting is acceptable.
+
+---
+
+Acknowledgement
+
+By accepting delivery of this package, Client acknowledges receipt of the Project source code and documentation as described above.
+

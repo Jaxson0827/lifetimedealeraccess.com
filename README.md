@@ -1,107 +1,125 @@
-# Lifetime Auto Sales - Homepage
+# Lifetime Auto Sales — Website (Next.js)
 
-A pixel-accurate homepage built with Next.js 14 and Tailwind CSS, matching the provided reference design.
+Marketing site + lead capture + payment setup deposit flow for Lifetime Auto Sales. Built as a Next.js 14 (App Router) application with Tailwind CSS, Stripe Checkout for payments, and GoHighLevel webhook integration for CRM logging.
 
-## Tech Stack
+## What this project is
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
+- **Marketing website**: pages for home, about, warranty, gig drivers, turo investor, etc.
+- **Lead capture**: contact/message forms and intake flow.
+- **Payment flow**: $100 setup deposit via **Stripe Checkout**, with a post-payment success page.
+- **CRM logging**: form + payment events posted to **GoHighLevel** via webhook.
+
+## Tech stack
+
+- **Framework**: Next.js `14.2.3` (App Router)
 - **Language**: TypeScript
+- **Styling/UI**: Tailwind CSS, Radix UI primitives
+- **Payments**: Stripe (server-side API routes)
+- **Forms/validation**: Zod
+- **Deployment**: Vercel recommended (any Node hosting that supports Next.js also works)
 
-## Color Palette
+## Run locally
 
-| Color | Hex Code | Usage |
-|-------|----------|-------|
-| Primary Dark Navy | `#08163F` | Main background |
-| Secondary Navy | `#272B4A` | Gradient secondary |
-| Accent Blue | `#1C3885` | Accent elements |
-| Primary Red CTA | `#D81326` | Call-to-action buttons |
-| White | `#FFFFFF` | Text |
-| Gold | `#C9A227` | Logo accent |
+### Prerequisites
 
-## Page Structure
+- Node.js 18+ (recommended)
+- npm (ships with Node)
 
-1. **Fixed Header** (~76px)
-   - Logo with gold emblem
-   - Navigation: Home, Services, How It Works, About, Contact
-   - Red CTA button
+### Setup
 
-2. **Hero Section** (Two-Column Layout)
-   - Bold headline with italic styling
-   - Subheadline
-   - Supporting copy
-   - Primary CTA button
-   - Trust line
-   - Hero image with rounded left edge
-
-3. **Trust/Auction Strip**
-   - Centered headline
-   - Auction partner logos: Manheim, ACV, IAA, ADESA
-
-4. **Footer Microcopy**
-   - Centered descriptive text
-
-## Getting Started
+1) Install dependencies:
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Run development server
+2) Create your env file:
+
+```bash
+cp .env.example .env.local
+```
+
+3) Fill in values in `.env.local` (see “Environment variables” below).
+
+4) Run the dev server:
+
+```bash
 npm run dev
+```
 
-# Build for production
+Then open `http://localhost:3000`.
+
+### Useful commands
+
+```bash
+npm run lint
 npm run build
-
-# Start production server
 npm start
 ```
 
-## Customization
+## Deploy
 
-### Hero Image
-To replace the hero image with an actual auction lot photo, update the URL in `app/page.tsx`:
+### Option A (recommended): Vercel
 
-```tsx
-backgroundImage: `
-  linear-gradient(to right, #08163F 0%, rgba(8,22,63,0.85) 15%, rgba(8,22,63,0.5) 35%, transparent 55%),
-  url('YOUR_IMAGE_URL_HERE')
-`,
+1) Create a new Vercel project and import this GitHub repo.
+2) Configure **Environment Variables** in Vercel (Project Settings → Environment Variables).
+3) Use defaults:
+   - **Build command**: `npm run build`
+   - **Output**: Next.js default
+4) Deploy.
+
+### Option B: Any Node hosting (self-hosted)
+
+1) Set environment variables on the host (same keys as `.env.example`).
+2) Build and start:
+
+```bash
+npm install
+npm run build
+npm run start
 ```
 
-For best results, use an image that:
-- Shows rows of cars in an auction lot (aerial/side view)
-- Has good resolution (2000px+ width)
-- Has a sunset/golden hour color tone to match the design
+## Environment variables
 
-### Fonts
-The design uses system fonts by default. To match the reference more closely, consider adding:
-- A serif font for "Manheim" logo
-- A bold sans-serif for headlines
+Create `.env.local` for local development (do not commit it). Use `.env.example` as a template.
 
-## File Structure
+### Required
 
-```
-├── app/
-│   ├── globals.css      # Tailwind directives and base styles
-│   ├── layout.tsx       # Root layout with metadata
-│   └── page.tsx         # Homepage component
-├── components/
-│   ├── Header.tsx       # Fixed navigation header
-│   └── Logo.tsx         # Lifetime Auto Sales logo
-├── public/              # Static assets
-├── tailwind.config.ts   # Tailwind configuration
-└── package.json         # Dependencies
-```
+- **Stripe**
+  - `STRIPE_SECRET_KEY`: Stripe secret key (`sk_test_...` or `sk_live_...`)
 
-## Development Notes
+- **GoHighLevel**
+  - `GOHIGHLEVEL_WEBHOOK_URL`: GoHighLevel/LeadConnector webhook trigger URL used by the site to log events
 
-- Desktop-first responsive design
-- No animations (as per requirements)
-- Clean Tailwind class usage
-- Semantic HTML structure
+### Optional
 
+- **Stripe**
+  - `STRIPE_SETUP_DEPOSIT_PRICE_ID`: If set, the backend uses your Stripe Price ID instead of a hard-coded $100 line item
 
+- **GoHighLevel**
+  - `GOHIGHLEVEL_PIPELINE_ID`: Pipeline ID (for opportunities)
+  - `GOHIGHLEVEL_STAGE_ID`: Stage ID (for opportunities)
 
+### Where contact info lives
 
+The site-wide phone/email/social + Calendly URL are centralized in:
 
+- `lib/site-contact.ts`
+
+## Key project locations
+
+- **Pages**: `app/**`
+- **API routes**
+  - Stripe: `app/api/stripe/**`
+  - GoHighLevel: `app/api/gohighlevel/**`
+- **Shared libs**: `lib/**`
+- **UI components**: `components/**`
+- **Docs**: `docs/**`
+  - `docs/STRIPE-INTEGRATION.md`
+  - `docs/GOHIGHLEVEL-INTEGRATION.md`
+  - `docs/ENVIRONMENT-VARS.md`
+
+## Notes for client handoff
+
+- This repo contains **code only**. You must supply/own the third-party accounts (Stripe, GoHighLevel) and set environment variables in your hosting platform.
+- Never place `.env*` files in `public/` or commit them to Git. Environment variables should live in `.env.local` (local) or your hosting provider’s environment settings (production).
